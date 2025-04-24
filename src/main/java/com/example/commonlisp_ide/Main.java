@@ -3,12 +3,15 @@ package com.example.commonlisp_ide;
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class Main {
 
@@ -34,8 +37,7 @@ public class Main {
 
     @FXML
     void initialize() {
-
-
+        //Run = new Button("",new ImageView(new Image("Run Icon.png")));
         Run.setOnAction(e -> sendCodeToLisp());
 
         startSBCL();
@@ -59,9 +61,33 @@ public class Main {
             throw new RuntimeException(e);
         }
     }
+    private void restartSBCL(){
+        if(sbclProcess!=null&&sbclProcess.isAlive()){
+            sbclProcess.destroy();
+            try {
+                sbclProcess.waitFor(1, TimeUnit.SECONDS);
+            }catch (InterruptedException e){
+                appendToOutput("Ошибка при завершении SBCL:"+ e.getMessage());
+            }
+        }
 
+        try {
+            ProcessBuilder pb = new ProcessBuilder("C:\\Program Files\\Steel Bank Common Lisp\\sbcl.exe", "--noinform", "--disable-debugger");
+            sbclProcess = pb.start();
+            processInput = new BufferedWriter(new OutputStreamWriter(sbclProcess.getOutputStream()));
+            processOutput = new BufferedReader(new InputStreamReader(sbclProcess.getInputStream()));
+            processError = new BufferedReader(new InputStreamReader(sbclProcess.getErrorStream()));
+            new Thread((this::readLispOutput)).start();
+            new Thread(this::readLispError).start();
+        } catch (IOException e) {
+            appendToOutput("Ошибка перезапуска процесса SBCL: "+e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
     private void sendCodeToLisp() {
-        String code = InputArea.getText();
+        OutputArea.clear();
+        restartSBCL();
+        String code = InputArea.getText().trim();
         try {
             processInput.write(code + "\n");
             processInput.flush();
@@ -79,7 +105,7 @@ public class Main {
                 appendToOutput(line);
             }
         } catch (IOException e) {
-           appendToOutput("Ошибка чтения stdout"+ "\n");
+            appendToOutput("Ошибка чтения stdout"+ "\n");
         }
 
     }
@@ -90,7 +116,7 @@ public class Main {
         String line;
         try {
             while ((line = processError.readLine())!=null){
-                  appendToOutput("[Ошибка]"+ line);
+                appendToOutput("[Ошибка]"+ line);
             }
         } catch (IOException e) {
             appendToOutput("Ошибка чтения stderr"+ e.getMessage());
@@ -98,9 +124,5 @@ public class Main {
         }
 
     }
-    public void stop() {
-        if (sbclProcess != null) {
-            sbclProcess.destroy();
-        }
-    }
+
 }

@@ -1,0 +1,13 @@
+.text-area{
+ -fx-background-color: transparent;
+}
+.text-area .content{
+     -fx-background-color: #393939;
+     -fx-background-insets: 0;
+     -fx-background-radius: 0;
+
+}
+.text-area .content .text {
+     -fx-fill: #ffffff;
+     -fx-font-size: 30px;
+}
