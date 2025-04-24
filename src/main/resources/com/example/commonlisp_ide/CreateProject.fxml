@@ -5,12 +5,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #393939;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.CreateProject">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.CreateProject">
    <children>
-      <TextField fx:id="NameProject" layoutX="175.0" layoutY="59.0" prefHeight="26.0" prefWidth="220.0" style="-fx-background-color: #393939;" stylesheets="@CSS%20Styles/TextField.css" />
-      <TextField fx:id="ProjectFolder" layoutX="175.0" layoutY="135.0" prefHeight="26.0" prefWidth="290.0" style="-fx-background-color: #393939;" stylesheets="@CSS%20Styles/TextField.css" />
+      <TextField fx:id="NameProject" layoutX="175.0" layoutY="59.0" prefHeight="26.0" prefWidth="220.0" style="-fx-background-color: #292929;" styleClass="text-field" stylesheets="@CSS%20Styles/TextField.css" />
+      <TextField fx:id="ProjectFolder" layoutX="175.0" layoutY="135.0" prefHeight="26.0" prefWidth="290.0" style="-fx-background-color: #292929;" stylesheets="@CSS%20Styles/TextField.css" text="Projects\" />
       <Text fill="MINTCREAM" layoutX="41.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Название проекта:" />
       <Text fill="MINTCREAM" layoutX="41.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Раположение проекта:" />
-      <Button layoutX="519.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #2F4FAF;" text="Создать" textFill="MINTCREAM" />
+      <Button fx:id="Create" layoutX="519.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #2F4FAF;" text="Создать" textFill="MINTCREAM" />
    </children>
 </AnchorPane>

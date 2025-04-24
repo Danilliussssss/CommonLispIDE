@@ -23,8 +23,9 @@ public class StartApp {
 
             FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("CreateProject.fxml"));
             try {
-
+                CreateProjectButton.getScene().getWindow().hide();
                 Scene scene = new Scene(loader.load(),600,400);
+
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.setTitle("Создать проект");

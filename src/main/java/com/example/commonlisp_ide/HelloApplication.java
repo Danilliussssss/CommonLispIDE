@@ -11,7 +11,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("StartApp.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 777, 529);
+        Scene scene = new Scene(fxmlLoader.load(), 777, 541);
         stage.setTitle("CommonLisp IDE");
         stage.setScene(scene);
         stage.show();
