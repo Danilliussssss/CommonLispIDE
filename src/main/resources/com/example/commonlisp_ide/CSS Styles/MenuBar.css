@@ -1,9 +1,31 @@
-.menu-bar .menu-button .label{
--fx-text-fill: #F5FFFA;
+/* Сброс всех стилей для меню */
+
+
+
+.context-menu {
+       -fx-border-color: rgb(37, 37, 37);
+       -fx-padding: 0;
+       -fx-border-width: 0;
 }
-.menu{
--fx-text-fill: #F5FFFA;
+/* Основные стили */
+.menu-bar {
+    -fx-background-color: #292929;
 }
-.menu-item{
--fx-text-fill: #F5FFFA;
+
+.menu {
+    -fx-background-color: #292929;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
 }
+.menu-bar .menu-button .label {
+    -fx-text-fill: #F5FFFA;
+}
+
+
+.menu-item {
+    -fx-background-color: #292929;
+    -fx-pref-width: 70;
+    -fx-padding: 10;
+
+}
+

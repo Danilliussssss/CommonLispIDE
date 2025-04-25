@@ -12,5 +12,6 @@
       <Text fill="MINTCREAM" layoutX="41.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Название проекта:" />
       <Text fill="MINTCREAM" layoutX="41.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Раположение проекта:" />
       <Button fx:id="Create" layoutX="519.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #2F4FAF;" text="Создать" textFill="MINTCREAM" />
+      <Button fx:id="Back" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="60.0" style="-fx-background-color: #2F4FAF;" text="Назад" textFill="MINTCREAM" />
    </children>
 </AnchorPane>

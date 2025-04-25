@@ -30,6 +30,8 @@ public class CreateProject {
     private TextField ProjectFolder;
     @FXML
     private Button Create;
+    @FXML
+    private Button Back;
 
     @FXML
     void initialize() {
@@ -54,6 +56,21 @@ public class CreateProject {
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
+
+        });
+        Back.setOnAction(e->{
+            Back.getScene().getWindow().hide();
+            FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("StartApp.fxml"));
+            try {
+                Scene scene = new Scene(loader.load(),777,541);
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("CommonLisp IDE");
+                stage.show();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+
 
         });
 

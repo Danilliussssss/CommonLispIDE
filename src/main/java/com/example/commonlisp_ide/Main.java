@@ -1,17 +1,19 @@
 package com.example.commonlisp_ide;
-
 import java.io.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class Main {
 
@@ -20,7 +22,8 @@ public class Main {
 
     @FXML
     private URL location;
-
+    @FXML
+    private VBox vBox;
     @FXML
     private TextArea InputArea;
     @FXML
@@ -28,21 +31,50 @@ public class Main {
 
     @FXML
     private Button Run;
+    @FXML
+    private MenuBar menuBar;
     private Process sbclProcess;
     private BufferedWriter processInput;
     private BufferedReader processOutput;
     private BufferedReader processError;
     private AtomicInteger packageCounter;
-    ;
-
+    private FileChooser fileChooser;
     @FXML
     void initialize() {
-        //Run = new Button("",new ImageView(new Image("Run Icon.png")));
+        menuBar.getMenus().get(0).getItems().get(0).setOnAction(actionEvent -> {
+            FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("CreateProject.fxml"));
+            try {
+                menuBar.getScene().getWindow().hide();
+                Scene scene = new Scene(loader.load(),600,400);
+
+                Stage stage = new Stage();
+                stage.setScene(scene);
+                stage.setTitle("Создать проект");
+                stage.show();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+
+        });
+        menuBar.getMenus().get(0).getItems().get(1).setOnAction(actionEvent -> {
+           fileChooser = new FileChooser();
+           fileChooser.setTitle("Выберите файл");
+           fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Файл CommonLisp","*lsp"));
+           Stage stage = new Stage();
+           File file = fileChooser.showOpenDialog(stage);
+            FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("Main.fxml"));
+            try {
+                Scene scene = new Scene(loader.load(),777,541);
+                menuBar.getScene().getWindow().hide();
+                stage.setScene(scene);
+                stage.setTitle(file.getName());
+                stage.show();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         Run.setOnAction(e -> sendCodeToLisp());
-
         startSBCL();
-
-
     }
 
     private void startSBCL() {

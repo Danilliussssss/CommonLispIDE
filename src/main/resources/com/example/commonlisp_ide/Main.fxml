@@ -36,54 +36,24 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefHeight="541.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.Main">
+<VBox fx:id="vBox" prefHeight="541.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.Main">
   <children>
-    <MenuBar style="-fx-background-color: #292929;" styleClass="menu-item" stylesheets="@CSS%20Styles/MenuBar.css" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="File">
-          <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Help">
-          <items>
-            <MenuItem mnemonicParsing="false" text="About MyHelloApp" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
+      <MenuBar fx:id="menuBar" stylesheets="@CSS%20Styles/MenuBar.css">
+        <menus>
+            <Menu fx:id="File" mnemonicParsing="false" style="-fx-background-color: #292929; -fx-border-color: #292929;" styleClass="file-menu" text="Файл">
+              <items>
+                <MenuItem mnemonicParsing="false" style="-fx-background-color: #292929; -fx-border-color: #292929;" text="Создать" />
+                  <MenuItem mnemonicParsing="false" text="Открыть" />
+              </items>
+            </Menu>
+        </menus>
+      </MenuBar>
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="534.0" prefWidth="778.0" style="-fx-background-color: #343434;" VBox.vgrow="ALWAYS">
          <children>
             <TextArea fx:id="InputArea" layoutX="135.0" layoutY="42.0" prefHeight="376.0" prefWidth="556.0" style="-fx-fill: #ffffff;" styleClass="text-area" stylesheets="@CSS%20Styles/Background_TextArea.css" />
@@ -93,14 +63,14 @@
                   <image>
                     <Image url="@Run%20Icon.png" />
                   </image>
-                  <fitWidth>20</fitWidth>
-                  <fitHeight>20</fitHeight>
+                  <fitWidth>16</fitWidth>
+                  <fitHeight>18</fitHeight>
                 </ImageView>
               </graphic>
             </Button>
 
 
-            <TextArea fx:id="OutputArea" layoutX="134.0" layoutY="421.0" prefHeight="82.0" prefWidth="556.0" styleClass="text-area" stylesheets="@CSS%20Styles/Background_TextArea.css" />
+            <TextArea fx:id="OutputArea" layoutX="134.0" layoutY="421.0" prefHeight="82.0" prefWidth="556.0" stylesheets="@CSS%20Styles/Background_TextArea.css" />
          </children>
     </AnchorPane>
   </children>
