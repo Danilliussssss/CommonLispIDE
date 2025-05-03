@@ -62,17 +62,20 @@ public class Main {
            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Файл CommonLisp","*lsp"));
            Stage stage = new Stage();
            File file = fileChooser.showOpenDialog(stage);
-            FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("Main.fxml"));
-            try {
-                Scene scene = new Scene(loader.load(),777,541);
-                menuBar.getScene().getWindow().hide();
-                stage.setScene(scene);
-                stage.setTitle(file.getName());
-                stage.show();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+           if(file!=null) {
+               FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("Main.fxml"));
+               try {
+                   Scene scene = new Scene(loader.load(), 777, 541);
+                   menuBar.getScene().getWindow().hide();
+                   stage.setScene(scene);
+                   stage.setTitle(file.getName());
+                   stage.show();
+               } catch (IOException ex) {
+                   throw new RuntimeException(ex);
+               }
+           }
         });
+
         Run.setOnAction(e -> sendCodeToLisp());
         startSBCL();
     }
