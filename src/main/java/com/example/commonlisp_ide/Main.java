@@ -84,7 +84,7 @@ public class Main {
 
         try {
 
-            ProcessBuilder pb = new ProcessBuilder("C:\\Program Files\\Steel Bank Common Lisp\\sbcl.exe", "--noinform", "--disable-debugger");
+            ProcessBuilder pb = new ProcessBuilder("C:\\Users\\Danilka\\IdeaProjects\\CommonLisp_IDE\\Steel Bank Common Lisp\\sbcl.exe", "--noinform", "--disable-debugger");
             sbclProcess = pb.start();
             processInput = new BufferedWriter(new OutputStreamWriter(sbclProcess.getOutputStream()));
             processOutput = new BufferedReader(new InputStreamReader(sbclProcess.getInputStream()));
@@ -107,7 +107,7 @@ public class Main {
         }
 
         try {
-            ProcessBuilder pb = new ProcessBuilder("C:\\Program Files\\Steel Bank Common Lisp\\sbcl.exe", "--noinform", "--disable-debugger");
+            ProcessBuilder pb = new ProcessBuilder("C:\\Users\\Danilka\\IdeaProjects\\CommonLisp_IDE\\Steel Bank Common Lisp\\sbcl.exe", "--noinform", "--disable-debugger");
             sbclProcess = pb.start();
             processInput = new BufferedWriter(new OutputStreamWriter(sbclProcess.getOutputStream()));
             processOutput = new BufferedReader(new InputStreamReader(sbclProcess.getInputStream()));
