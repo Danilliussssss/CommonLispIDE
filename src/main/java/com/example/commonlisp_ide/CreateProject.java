@@ -40,15 +40,21 @@ public class CreateProject {
             Create.getScene().getWindow().hide();
             try {
                 File path = new File(ProjectFolder.getText());
+                Project.getInstance().setName(NameProject.getText());
+                Project.getInstance().setPath(ProjectFolder.getText()+NameProject.getText()+".lsp");
+
+
                 if (!path.exists())
                     path.mkdir();
                 FileWriter writer = new FileWriter(ProjectFolder.getText()+NameProject.getText()+".lsp");
+
+
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("Main.fxml"));
             try {
-                Scene scene = new Scene(loader.load(),777,541);
+                Scene scene = new Scene(loader.load(),777,620);
                 Stage stage = new Stage();
                 stage.setScene(scene);
                 stage.setTitle(NameProject.getText());

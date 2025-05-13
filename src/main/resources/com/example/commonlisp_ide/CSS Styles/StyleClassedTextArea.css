@@ -1,0 +1,39 @@
+/* Корневой элемент */
+.style-classed-text-area {
+    -fx-background-color: transparent;
+
+}
+
+/* Область содержимого текста */
+.style-classed-text-area .content {
+    -fx-background-color: #292929;
+
+
+}
+
+/* Стиль для самого текста (если нужно глобальное изменение) */
+.style-classed-text-area .text {
+    -fx-fill: #F5FFFA;
+    -fx-font-size: 14px;
+
+}
+.style-classed-text-area .caret {
+    -fx-stroke: #F5FFFA; /* Синяя каретка */
+    -fx-stroke-width: 1px;
+}
+.highlight-def {
+    -fx-fill: #191970 !important;
+}
+.highlight-syntax-cons {
+    -fx-fill: #800000 !important;
+}
+.highlight-default {
+    -fx-fill: #F5FFFA !important;
+}
+.highlight-data {
+    -fx-fill: #008080 !important;
+}
+.highlight-error {
+    -fx-fill: #F40000 !important;
+}
+

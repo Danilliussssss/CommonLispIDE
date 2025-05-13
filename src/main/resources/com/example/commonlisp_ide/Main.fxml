@@ -36,13 +36,13 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<VBox fx:id="vBox" prefHeight="541.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.Main">
+<VBox fx:id="vBox" prefHeight="620.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.Main">
   <children>
       <MenuBar fx:id="menuBar" stylesheets="@CSS%20Styles/MenuBar.css">
         <menus>
@@ -50,13 +50,19 @@
               <items>
                 <MenuItem mnemonicParsing="false" style="-fx-background-color: #292929; -fx-border-color: #292929;" text="Создать" />
                   <MenuItem mnemonicParsing="false" text="Открыть" />
+                  <MenuItem mnemonicParsing="false" text="Сохранить" />
+              </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Код">
+              <items>
+                <MenuItem mnemonicParsing="false" text="Компиляция" />
+                  <MenuItem mnemonicParsing="false" text="Загрузка" />
               </items>
             </Menu>
         </menus>
       </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="534.0" prefWidth="778.0" style="-fx-background-color: #343434;" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="haulst" maxHeight="-1.0" maxWidth="-1.0" prefHeight="599.0" prefWidth="778.0" style="-fx-background-color: #343434;" VBox.vgrow="ALWAYS">
          <children>
-            <TextArea fx:id="InputArea" layoutX="135.0" layoutY="42.0" prefHeight="376.0" prefWidth="556.0" style="-fx-fill: #ffffff;" styleClass="text-area" stylesheets="@CSS%20Styles/Background_TextArea.css" />
             <Button fx:id="Run" layoutX="648.0" layoutY="7.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0" style="-fx-background-color: #343434;">
               <graphic>
                 <ImageView>
@@ -68,9 +74,8 @@
                 </ImageView>
               </graphic>
             </Button>
-
-
-            <TextArea fx:id="OutputArea" layoutX="134.0" layoutY="421.0" prefHeight="82.0" prefWidth="556.0" stylesheets="@CSS%20Styles/Background_TextArea.css" />
+            <StyleClassedTextArea fx:id="InputArea" autoHeight="true" layoutX="131.0" layoutY="36.0" prefHeight="374.0" prefWidth="556.0" style="-fx-background-color: #292929; -fx-caret-color: #F5FFFA;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" wrapText="true" />
+            <StyleClassedTextArea fx:id="OutputArea" editable="false" layoutX="131.0" layoutY="421.0" prefHeight="165.0" prefWidth="556.0" style="-fx-background-color: #292929;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" />
          </children>
     </AnchorPane>
   </children>
