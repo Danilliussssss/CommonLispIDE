@@ -13,15 +13,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class CreateProject {
 
     @FXML
-    private ResourceBundle resources;
-
+    AnchorPane haulst;
     @FXML
-    private URL location;
+    Text nameLabel;
+    @FXML
+    Text pathLabel;
 
     @FXML
     private TextField NameProject;
@@ -34,19 +37,22 @@ public class CreateProject {
     private Button Back;
 
     @FXML
-    void initialize() {
+    void initialize() throws IOException {
+        if(Project.getInstance().loadGlobalSettings("theme","value")!=null&&Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
+            lightTheme();
+        else darkTheme();
 
         Create.setOnAction( e->{
             Create.getScene().getWindow().hide();
             try {
                 File path = new File(ProjectFolder.getText());
-                Project.getInstance().setName(NameProject.getText());
-                Project.getInstance().setPath(ProjectFolder.getText()+NameProject.getText()+".lsp");
+                Project.getInstance().createProject(NameProject.getText(),ProjectFolder.getText());
 
 
                 if (!path.exists())
                     path.mkdir();
                 FileWriter writer = new FileWriter(ProjectFolder.getText()+NameProject.getText()+".lsp");
+
 
 
             } catch (IOException ex) {
@@ -79,6 +85,22 @@ public class CreateProject {
 
 
         });
+
+    }
+    public void darkTheme(){
+        nameLabel.setStyle("-fx-fill: #F5FFFA;");
+        pathLabel.setStyle("-fx-fill: #F5FFFA;");
+        NameProject.getStyleClass().add("dark");
+        ProjectFolder.getStyleClass().add("dark");
+        haulst.setStyle("-fx-background-color: #343434;");
+
+    }
+    public void lightTheme(){
+        nameLabel.setStyle("-fx-fill: #343434;");
+        pathLabel.setStyle("-fx-fill: #343434;");
+        NameProject.getStyleClass().add("light");
+        ProjectFolder.getStyleClass().add("light");
+        haulst.setStyle("-fx-background-color:  #FFDAB9;");
 
     }
 }

@@ -1,11 +1,16 @@
-(defun find_elem (x y)
- (loop for elem in y
-  if (equal elem x) return x
-  finally (return nil)
+(defun arr_count (x count)
+ (cond
+ ((null x) count)
+ (T (arr_count (cdr x) (+ 1 count)))
 ))
 
-(defun arr_count (x count)
-  (loop for elem in x
-        do (setq count (+ count 1))
-        finally (return count)))
-(find_elem  1 `(1 2 3)) 
+(defun arr_2_count (x max)
+(cond
+((null x) max)
+(( >(arr_count (car x) 0) (arr_count max 0)) (arr_2_count (cdr x) (car x)))
+(( <= (arr_count (car x) 0) (arr_count max 0)) (arr_2_count (cdr x) max))
+))
+
+(arr_2_count '((1 2 3 4 5) (6 9 2 1)) '())
+(arr_2_count '((1 2 3) (6 9 2 1 4)) '())
+

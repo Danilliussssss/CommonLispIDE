@@ -1,6 +1,14 @@
-.text-field{
+.text-field.dark{
 -fx-border-color: #F5FFFA;
 -fx-border-radius: 3px;
 -fx-text-fill: #F5FFFA;
+-fx-background-color: #292929;
+
+}
+.text-field.light{
+-fx-border-color: #292929;
+-fx-border-radius: 3px;
+-fx-text-fill: #292929;
+-fx-background-color: #FFDAB9;
 
 }

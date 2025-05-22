@@ -1,15 +1,4 @@
-/* Корневой элемент */
-.style-classed-text-area {
-    -fx-background-color: transparent;
 
-}
-
-/* Область содержимого текста */
-.style-classed-text-area .content {
-    -fx-background-color: #292929;
-
-
-}
 
 /* Стиль для самого текста (если нужно глобальное изменение) */
 .style-classed-text-area .text {
@@ -21,19 +10,33 @@
     -fx-stroke: #F5FFFA; /* Синяя каретка */
     -fx-stroke-width: 1px;
 }
-.highlight-def {
-    -fx-fill: #191970 !important;
+
+
+.dark{
+ -fx-fill: #292929 !important;
 }
-.highlight-syntax-cons {
-    -fx-fill: #800000 !important;
+.blue {
+    -fx-fill: #0000FF !important;
 }
-.highlight-default {
+.red {
+    -fx-fill: #FF0000 !important;
+}
+.yellow {
+    -fx-fill: #FFFF00 !important;
+}
+.white {
     -fx-fill: #F5FFFA !important;
 }
-.highlight-data {
-    -fx-fill: #008080 !important;
+.green {
+ -fx-fill: #008000 !important;
+}
+.purple{
+ -fx-fill: #800080 !important;
+}
+.orange{
+-fx-fill: #FF8C00 !important;
+
 }
 .highlight-error {
     -fx-fill: #F40000 !important;
 }
-

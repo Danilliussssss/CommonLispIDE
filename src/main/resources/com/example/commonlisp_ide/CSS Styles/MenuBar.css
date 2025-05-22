@@ -1,31 +1,46 @@
 /* Сброс всех стилей для меню */
-
-
-
-.context-menu {
-       -fx-border-color: rgb(37, 37, 37);
-       -fx-padding: 0;
-       -fx-border-width: 0;
+.menu-bar.light{
+-fx-background-color: #F5FFFA;
 }
+
 /* Основные стили */
-.menu-bar {
-    -fx-background-color: #292929;
+.menu-bar  .menu-button.darkHover:hover{
+-fx-background-color: #292929;
 }
 
-.menu {
-    -fx-background-color: #292929;
-    -fx-border-color: transparent;
-    -fx-border-width: 0;
+.menu-bar  .menu-button.lightHover:hover{
+-fx-background-color: #F5FFFA;
 }
-.menu-bar .menu-button .label {
+.menu-bar  .menu-button.darkPressed:showing{
+-fx-background-color: #292929;
+}
+.menu-bar  .menu-button.lightPressed:showing{
+-fx-background-color: #F5FFFA;
+}
+.menu-bar  .menu-button.dark .label {
+
+    -fx-text-fill: #292929;
+}
+.menu-bar  .menu-button.light .label {
+
     -fx-text-fill: #F5FFFA;
 }
 
-
-.menu-item {
-    -fx-background-color: #292929;
+ .menu-item {
+    -fx-background: #cccccc;
     -fx-pref-width: 70;
     -fx-padding: 10;
 
 }
+
+.custom-menu-dark .context-menu{
+-fx-background-color: #292929;
+}
+.custom-menu-light .context-menu{
+-fx-background-color: #F5FFFA;
+}
+.menu-item:hover{
+-fx-background-color: #cccccc;
+}
+
 

@@ -1,0 +1,15 @@
+.combo-box.dark {
+-fx-background-color: #292929;
+
+}
+.context-menu {
+    -fx-background-color: #292929 !important;
+    -fx-border-color: #292929 !important;
+}
+
+.arrow-button{
+-fx-background-color: #292929;
+}
+.arrow{
+ -fx-background-color: #F5FFFA;
+}

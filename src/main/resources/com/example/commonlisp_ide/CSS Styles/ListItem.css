@@ -1,10 +1,17 @@
-.list-view {
-    -fx-background-color: #292929;
+.list-view.dark {
+-fx-background-color: #343434;
 }
-
-.list-cell {
-    -fx-background-color: #292929;
-    -fx-text-fill: #F5F5F5;
+.list-view.light {
+-fx-background-color: #FFDAB9;
+}
+.list-view.dark-theme .list-cell {
+    -fx-background-color: #343434;
+    -fx-text-fill: #F5FFFA;
     -fx-font-size: 14px;
+    -fx-padding: 8px;
+}
+.list-view.light-theme .list-cell{
+-fx-background-color: #FFDAB9;
+ -fx-font-size: 14px;
     -fx-padding: 8px;
 }

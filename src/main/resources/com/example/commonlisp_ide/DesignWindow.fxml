@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane fx:id="haulst" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.DesignWindow">
+   <children>
+      <ComboBox fx:id="defunColor" layoutX="183.0" layoutY="38.0" prefHeight="18.0" prefWidth="102.0" styleClass="combo-box" stylesheets="@CSS%20Styles/ComboBox.css" />
+      <Label fx:id="defunLabel" layoutX="14.0" layoutY="42.0" text="Подсветка функций" textFill="MINTCREAM" />
+      <Label fx:id="keywordLabel" layoutX="14.0" layoutY="88.0" text="Подсветка ключевых слов" textFill="MINTCREAM" />
+      <ComboBox fx:id="keywordColor" layoutX="183.0" layoutY="84.0" prefHeight="18.0" prefWidth="102.0" stylesheets="@CSS%20Styles/ComboBox.css" />
+      <Button fx:id="Save" layoutX="507.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #00008B;" text="Применить" textFill="MINTCREAM" />
+      <Label fx:id="codeLabel" layoutX="14.0" layoutY="134.0" text="Подсветка кода" textFill="MINTCREAM" />
+      <ComboBox fx:id="codeColor" layoutX="183.0" layoutY="130.0" prefHeight="18.0" prefWidth="102.0" stylesheets="@CSS%20Styles/ComboBox.css" />
+   </children>
+</AnchorPane>
