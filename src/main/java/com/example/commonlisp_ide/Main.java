@@ -71,10 +71,16 @@ public class Main {
 
         Platform.runLater(()->{
             try {
-                if(Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
+                if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
                     lightTheme();
-                else
+                    InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                    OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                }
+                else {
                     darkTheme();
+                    InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                    OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                }
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -205,9 +211,16 @@ public class Main {
             Platform.runLater(()->{
                 try {
                     System.out.println(Project.getInstance().loadGlobalSettings("theme","value"));
-                    if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark"))
+                    if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark")) {
                         lightTheme();
-                    else darkTheme();
+                        InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                        OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                    }
+                    else {
+                        darkTheme();
+                        InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                        OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                    }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
@@ -221,6 +234,7 @@ public class Main {
         LightView.setFitHeight(16);
         LightView.setFitWidth(18);
         Run.setGraphic(LightView);
+
         LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
         LightViewDebug.setFitHeight(17);
         LightViewDebug.setFitWidth(20);
@@ -255,6 +269,7 @@ public class Main {
         DarkView = new ImageView(getClass().getResource("/com/example/commonlisp_ide/RunIcon.png").toExternalForm());
         DarkView.setFitHeight(16);
         DarkView.setFitWidth(18);
+
         Run.setGraphic(DarkView);
         DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
         DarkViewDebug.setFitHeight(17);
@@ -298,10 +313,22 @@ public class Main {
     }
      public void highLightText_changed() throws IOException {
         String color;
-         if(Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
-           color = "dark";
-         else color = "light";
+         if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
+             color = "dark";
+             InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+             OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+
+         }
+         else {
+             color = "white";
+             InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+             OutputArea.setStyle("-fx-background-color: #292929; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+
+         }
+
+
          InputArea.setStyleClass(0,InputArea.getText().length(),Project.getInstance().loadSettings("codeColor",color));
+
          try {
              highLightText(InputArea,"defun",Project.getInstance().loadSettings("defunColor","purple"));
              highLightText(InputArea,"defmacro",Project.getInstance().loadSettings("defunColor","purple"));

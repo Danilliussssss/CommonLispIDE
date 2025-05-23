@@ -14,5 +14,7 @@
       <Button fx:id="Save" layoutX="507.0" layoutY="360.0" mnemonicParsing="false" style="-fx-background-color: #00008B;" text="Применить" textFill="MINTCREAM" />
       <Label fx:id="codeLabel" layoutX="14.0" layoutY="134.0" text="Подсветка кода" textFill="MINTCREAM" />
       <ComboBox fx:id="codeColor" layoutX="183.0" layoutY="130.0" prefHeight="18.0" prefWidth="102.0" stylesheets="@CSS%20Styles/ComboBox.css" />
+      <ComboBox fx:id="textSize" layoutX="183.0" layoutY="174.0" prefHeight="18.0" prefWidth="102.0" stylesheets="@CSS%20Styles/ComboBox.css" />
+      <Label fx:id="sizeLabel" layoutX="25.0" layoutY="178.0" text="Размер текста" textFill="MINTCREAM" />
    </children>
 </AnchorPane>

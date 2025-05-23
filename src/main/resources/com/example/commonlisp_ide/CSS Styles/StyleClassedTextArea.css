@@ -3,7 +3,7 @@
 /* Стиль для самого текста (если нужно глобальное изменение) */
 .style-classed-text-area .text {
     -fx-fill: #F5FFFA;
-    -fx-font-size: 14px;
+
 
 }
 .style-classed-text-area .caret {

@@ -38,8 +38,6 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
@@ -50,7 +48,7 @@
         <menus>
             <Menu fx:id="File" mnemonicParsing="false" text="Файл">
               <items>
-                <MenuItem mnemonicParsing="false"  text="Создать" />
+                <MenuItem mnemonicParsing="false" text="Создать" />
                   <MenuItem mnemonicParsing="false" text="Открыть" />
                   <MenuItem mnemonicParsing="false" text="Сохранить" />
               </items>
@@ -72,13 +70,13 @@
             <URL value="@CSS%20Styles/ContextMenu.css" />
          </stylesheets>
       </MenuBar>
-    <AnchorPane fx:id="haulst" maxHeight="-1.0" maxWidth="-1.0" prefHeight="599.0" prefWidth="778.0"  VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="haulst" maxHeight="-1.0" maxWidth="-1.0" prefHeight="599.0" prefWidth="778.0" VBox.vgrow="ALWAYS">
          <children>
             <Button fx:id="Run" layoutX="648.0" layoutY="7.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0">
 
             </Button>
             <StyleClassedTextArea fx:id="InputArea" autoHeight="true" layoutX="131.0" layoutY="36.0" prefHeight="374.0" prefWidth="556.0" style="-fx-caret-color: #F5FFFA;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" wrapText="true" />
-            <StyleClassedTextArea fx:id="OutputArea" editable="false" layoutX="131.0" layoutY="421.0" prefHeight="165.0" prefWidth="556.0" style="-fx-background-color: #292929;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" />
+            <StyleClassedTextArea fx:id="OutputArea" editable="false" layoutX="131.0" layoutY="421.0" prefHeight="165.0" prefWidth="556.0" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" />
             <Button fx:id="RunDebug" layoutX="604.0" layoutY="7.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0" style="-fx-background-color: #343434;">
 
             </Button>

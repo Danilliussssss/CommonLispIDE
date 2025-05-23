@@ -21,6 +21,8 @@ public class DesignWindow {
     private ComboBox<String> keywordColor;
     @FXML
     private ComboBox<String> codeColor;
+    @FXML
+    private ComboBox<String> textSize;
 
     @FXML
     private Button Save;
@@ -30,6 +32,9 @@ public class DesignWindow {
     private Label keywordLabel;
     @FXML
     private Label codeLabel;
+    @FXML
+    private Label sizeLabel;
+
     @FXML
     AnchorPane haulst;
 
@@ -41,7 +46,7 @@ public class DesignWindow {
         stylesItem.put("Синий","-fx-text-fill: #0000FF;");
         stylesItem.put("Жёлтый","-fx-text-fill: #FFFF00;");
         stylesItem.put("Фиолетовый","-fx-text-fill: purple;");
-        stylesItem.put("Белый","-fx-text-fill: #FAFFF5;");
+        stylesItem.put("Стандарт","-fx-text-fill: #292929;");
         stylesItem.put("Оранжевый","-fx-text-fill: #FF8C00;");
         stylesItem.put("Тёмный","-fx-text-fill: #292929;");
 
@@ -56,20 +61,29 @@ public class DesignWindow {
         styles.put("Жёлтый","yellow");
         styles.put("Фиолетовый","purple");
         styles.put("Оранжевый","orange");
-        styles.put("Белый","white");
+        styles.put("Стандарт","white");
         styles.put("Тёмный","dark");
     }
-
+    private static final Map<String,String> sizeMap = new HashMap<>();
+    static {
+        sizeMap.put("14 px","14px");
+        sizeMap.put("15 px","15px");
+        sizeMap.put("16 px","16px");
+        sizeMap.put("17 px","17px");
+    }
     @FXML
     void initialize() throws IOException {
 
         if(Project.getInstance().loadGlobalSettings("theme","value")!=null&&Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
             lightTheme();
         else darkTheme();
+
         defunColor.setValue(Project.getInstance().loadSettings("defunBoxValue","Фиолетовый"));
         keywordColor.setValue(Project.getInstance().loadSettings("keywordBoxValue","Оранжевый"));
-        codeColor.setValue(Project.getInstance().loadSettings("codeBoxValue","Белый"));
+        codeColor.setValue(Project.getInstance().loadSettings("codeBoxValue","Стандарт"));
          defunColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Фиолетовый");
+         textSize.getItems().addAll("14 px","15 px", "16 px","17 px");
+        textSize.setValue(Project.getInstance().loadSettings("text-size-value","14 px"));
          defunColor.setCellFactory(listView -> new ListCell<>(){
              @Override
              protected void updateItem(String item, boolean empty) {
@@ -81,13 +95,7 @@ public class DesignWindow {
                  else {
                      System.out.println(stylesItem.get(item));
                      setText(item);
-
-                     try {
-                         if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark"))
-                             setStyle(stylesItem.get(item)+"-fx-background-color: #5F9EA0;");
-                     } catch (IOException e) {
-                         throw new RuntimeException(e);
-                     }
+                             setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
                  }
              }
          });
@@ -102,14 +110,8 @@ public class DesignWindow {
                 else {
 
                     setText(item);
-                    try {
-                        if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark"))
-                         setStyle(stylesItem.get(item)+"-fx-background-color: #5F9EA0;");
 
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
-
+                            setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
                 }
             }
         });
@@ -125,12 +127,10 @@ public class DesignWindow {
                 else {
 
                     setText(item);
-                    try {
-                        if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark"))
-                            setStyle(stylesItem.get(item)+"-fx-background-color: #5F9EA0;");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+
+
+                            setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
+
                 }
             }
         });
@@ -145,11 +145,11 @@ public class DesignWindow {
                 else {
                     System.out.println(stylesItem.get(item));
                     setText(item);
-                    setStyle(stylesItem.get(item)+"-fx-background-color: #5F9EA0;");
+                    setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
                 }
             }
         });
-        codeColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Белый","Тёмный");
+        codeColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Стандарт","Тёмный");
         codeColor.setCellFactory(listView -> new ListCell<>(){
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -161,7 +161,9 @@ public class DesignWindow {
                 else {
 
                     setText(item);
-                    setStyle(stylesItem.get(item)+"-fx-background-color: #5F9EA0;");
+                    if(!item.equals("Стандарт"))
+                     setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
+                    else  setStyle("-fx-text-fill: #292929;"+"-fx-background-color: #F5FFFA;");
                 }
             }
         });
@@ -176,7 +178,9 @@ public class DesignWindow {
                 else {
                     System.out.println(stylesItem.get(item));
                     setText(item);
-                    setStyle(stylesItem.get(item)+"-fx-background-color: #5F9EA0;");
+                    if(!item.equals("Стандарт"))
+                        setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
+                    else  setStyle("-fx-text-fill: #292929;"+"-fx-background-color: #F5FFFA;");
                 }
             }
         });
@@ -189,6 +193,8 @@ public class DesignWindow {
                 Project.getInstance().saveSettings("defunBoxValue",defunColor.getValue());
                 Project.getInstance().saveSettings("keywordBoxValue",keywordColor.getValue());
                 Project.getInstance().saveSettings("codeBoxValue",codeColor.getValue());
+                Project.getInstance().saveSettings("text-size",sizeMap.get(textSize.getValue()));
+                Project.getInstance().saveSettings("text-size-value",textSize.getValue());
                 Project.getInstance().getMain().highLightText_changed();
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -214,7 +220,9 @@ public class DesignWindow {
         defunLabel.setStyle("-fx-text-fill: #343434;");
         keywordLabel.setStyle("-fx-text-fill: #343434;");
         codeLabel.setStyle("-fx-text-fill: #343434;");
+
         defunColor.getStyleClass().add("light");
+
 
 
     }
