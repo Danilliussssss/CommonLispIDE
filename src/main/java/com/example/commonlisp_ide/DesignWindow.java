@@ -78,12 +78,12 @@ public class DesignWindow {
             lightTheme();
         else darkTheme();
 
-        defunColor.setValue(Project.getInstance().loadSettings("defunBoxValue","Фиолетовый"));
-        keywordColor.setValue(Project.getInstance().loadSettings("keywordBoxValue","Оранжевый"));
-        codeColor.setValue(Project.getInstance().loadSettings("codeBoxValue","Стандарт"));
+        defunColor.setValue(Project.getInstance().loadGlobalSettings("defunBoxValue","Фиолетовый"));
+        keywordColor.setValue(Project.getInstance().loadGlobalSettings("keywordBoxValue","Оранжевый"));
+        codeColor.setValue(Project.getInstance().loadGlobalSettings("codeBoxValue","Стандарт"));
          defunColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Фиолетовый");
          textSize.getItems().addAll("14 px","15 px", "16 px","17 px");
-        textSize.setValue(Project.getInstance().loadSettings("text-size-value","14 px"));
+        textSize.setValue(Project.getInstance().loadGlobalSettings("text-size-value","14 px"));
          defunColor.setCellFactory(listView -> new ListCell<>(){
              @Override
              protected void updateItem(String item, boolean empty) {
@@ -104,7 +104,7 @@ public class DesignWindow {
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if(empty||item==null) {
-                    setText(null);
+                    setText("123");
                     setStyle("");
                 }
                 else {
@@ -187,14 +187,14 @@ public class DesignWindow {
         Save.setOnAction(actionEvent->{
 
             try {
-                Project.getInstance().saveSettings("defunColor",styles.get(defunColor.getValue()));
-                Project.getInstance().saveSettings("keywordColor",styles.get(keywordColor.getValue()));
-                Project.getInstance().saveSettings("codeColor",styles.get(codeColor.getValue()));
-                Project.getInstance().saveSettings("defunBoxValue",defunColor.getValue());
-                Project.getInstance().saveSettings("keywordBoxValue",keywordColor.getValue());
-                Project.getInstance().saveSettings("codeBoxValue",codeColor.getValue());
-                Project.getInstance().saveSettings("text-size",sizeMap.get(textSize.getValue()));
-                Project.getInstance().saveSettings("text-size-value",textSize.getValue());
+                Project.getInstance().saveGlobalSettings("defunColor",styles.get(defunColor.getValue()));
+                Project.getInstance().saveGlobalSettings("keywordColor",styles.get(keywordColor.getValue()));
+                Project.getInstance().saveGlobalSettings("codeColor",styles.get(codeColor.getValue()));
+                Project.getInstance().saveGlobalSettings("defunBoxValue",defunColor.getValue());
+                Project.getInstance().saveGlobalSettings("keywordBoxValue",keywordColor.getValue());
+                Project.getInstance().saveGlobalSettings("codeBoxValue",codeColor.getValue());
+                Project.getInstance().saveGlobalSettings("text-size",sizeMap.get(textSize.getValue()));
+                Project.getInstance().saveGlobalSettings("text-size-value",textSize.getValue());
                 Project.getInstance().getMain().highLightText_changed();
             } catch (IOException e) {
                 throw new RuntimeException(e);

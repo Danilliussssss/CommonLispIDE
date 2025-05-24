@@ -46,12 +46,12 @@ public class CreateProject {
             Create.getScene().getWindow().hide();
             try {
                 File path = new File(ProjectFolder.getText());
-                Project.getInstance().createProject(NameProject.getText(),ProjectFolder.getText());
+                Project.getInstance().createProject(NameProject.getText(),ProjectFolder.getText()+NameProject.getText());
 
 
                 if (!path.exists())
                     path.mkdir();
-                FileWriter writer = new FileWriter(ProjectFolder.getText()+NameProject.getText()+".lsp");
+                FileWriter writer = new FileWriter(ProjectFolder.getText()+NameProject.getText()+"\\"+NameProject.getText()+".lsp");
 
 
 

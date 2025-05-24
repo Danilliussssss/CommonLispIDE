@@ -73,13 +73,13 @@ public class Main {
             try {
                 if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
                     lightTheme();
-                    InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
-                    OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                    InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
+                    OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                 }
                 else {
                     darkTheme();
-                    InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
-                    OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                    InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
+                    OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                 }
 
             } catch (IOException e) {
@@ -90,7 +90,7 @@ public class Main {
         compile = new ArrayList<>();
         Project.getInstance().setMain(this);
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(Project.getInstance().getPath()+Project.getInstance().getName()+".lsp"));
+            BufferedReader reader = new BufferedReader(new FileReader(Project.getInstance().getPath()+"\\"+Project.getInstance().getName()+".lsp"));
             String line;
             while ((line = reader.readLine()) != null) {
                 InputArea.appendText(line+"\n");
@@ -148,7 +148,7 @@ public class Main {
         });
         menuBar.getMenus().get(0).getItems().get(2).setOnAction(actionEvent -> {
             try {
-                BufferedWriter writer = new BufferedWriter(new FileWriter(Project.getInstance().getPath()+Project.getInstance().getName()+".lsp"));
+                BufferedWriter writer = new BufferedWriter(new FileWriter(Project.getInstance().getPath()+"\\"+Project.getInstance().getName()+".lsp"));
                 writer.write(InputArea.getText());
                 writer.flush();
                 writer.close();
@@ -158,7 +158,7 @@ public class Main {
         });
         menuBar.getMenus().get(1).getItems().get(0).setOnAction(actionEvent ->{
             System.out.println("Имя файла: "+Project.getInstance().getName());
-            sendCodeToLisp("(compile-file \"Projects/"+Project.getInstance().getName()+".lsp"+"\") ");
+            sendCodeToLisp("(compile-file \"Projects/"+Project.getInstance().getName()+"/"+Project.getInstance().getName()+".lsp"+"\") ");
 
         });
         menuBar.getMenus().get(1).getItems().get(1).setOnAction(actionEvent->{
@@ -168,9 +168,10 @@ public class Main {
             Stage stage = new Stage();
             File file = fileChooser.showOpenDialog(stage);
             if(file!=null) {
-
-                sendCodeToLisp("(load \"Projects/"+file.getName()+"\") ");
-                compile.add("(load \"Projects/"+file.getName()+"\") ");
+                System.out.println(file.getPath());
+                System.out.println("(load \"Projects/"+file.getName().substring(0,file.getName().length()-5)+"/"+file.getName()+"\") ");
+                sendCodeToLisp("(load \"Projects/"+file.getName().substring(0,file.getName().length()-5)+"/"+file.getName()+"\") ");
+                compile.add("(load \"Projects/"+file.getName().substring(0,file.getName().length()-5)+"/"+file.getName()+"\") ");
 
             }
 
@@ -213,13 +214,13 @@ public class Main {
                     System.out.println(Project.getInstance().loadGlobalSettings("theme","value"));
                     if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark")) {
                         lightTheme();
-                        InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
-                        OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                        InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
+                        OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                     }
                     else {
                         darkTheme();
-                        InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
-                        OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+                        InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
+                        OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                     }
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -315,27 +316,27 @@ public class Main {
         String color;
          if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
              color = "dark";
-             InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
-             OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+             InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
+             OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
 
          }
          else {
              color = "white";
-             InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
-             OutputArea.setStyle("-fx-background-color: #292929; -fx-font-size:" +Project.getInstance().loadSettings("text-size","14px")+";");
+             InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
+             OutputArea.setStyle("-fx-background-color: #292929; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
 
          }
 
 
-         InputArea.setStyleClass(0,InputArea.getText().length(),Project.getInstance().loadSettings("codeColor",color));
+         InputArea.setStyleClass(0,InputArea.getText().length(),Project.getInstance().loadGlobalSettings("codeColor",color));
 
          try {
-             highLightText(InputArea,"defun",Project.getInstance().loadSettings("defunColor","purple"));
-             highLightText(InputArea,"defmacro",Project.getInstance().loadSettings("defunColor","purple"));
-             highLightText(InputArea,"macroexpand",Project.getInstance().loadSettings("defunColor","purple"));
-             highLightText(InputArea,"cond",Project.getInstance().loadSettings("keywordColor","orange"));
-             highLightText(InputArea,"if",Project.getInstance().loadSettings("keywordColor","orange"));
-             highLightText(InputArea,"loop",Project.getInstance().loadSettings("keywordColor","orange"));
+             highLightText(InputArea,"defun",Project.getInstance().loadGlobalSettings("defunColor","purple"));
+             highLightText(InputArea,"defmacro",Project.getInstance().loadGlobalSettings("defunColor","purple"));
+             highLightText(InputArea,"macroexpand",Project.getInstance().loadGlobalSettings("defunColor","purple"));
+             highLightText(InputArea,"cond",Project.getInstance().loadGlobalSettings("keywordColor","orange"));
+             highLightText(InputArea,"if",Project.getInstance().loadGlobalSettings("keywordColor","orange"));
+             highLightText(InputArea,"loop",Project.getInstance().loadGlobalSettings("keywordColor","orange"));
          } catch (IOException e) {
              throw new RuntimeException(e);
          }

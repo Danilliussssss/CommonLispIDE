@@ -52,13 +52,11 @@ public class StartApp {
 
         if(directory.isDirectory()){
             String[] files = directory.list(filter);
-
-            if (files!=null) {
-                for(int i=0;i<files.length;i++)
-                    files[i] = files[i].substring(0,files[i].length()-4);
-                for(String file : files)
-                    System.out.println(file);
-                Collections.addAll(ProjectParam, files);
+            File[] projects = directory.listFiles();
+            if (projects!=null) {
+               for(File file : projects)
+                   if(file.isDirectory())
+                Collections.addAll(ProjectParam, file.getName());
                 }
 
             ListProject.setItems(ProjectParam);
@@ -69,12 +67,12 @@ public class StartApp {
         ListProject.getSelectionModel().selectedItemProperty().addListener((obs,oldVal,newVal)->{
             if(newVal!=null) {
                 FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("Main.fxml"));
-
+                 System.out.println(newVal);
 
 
                 try {
                     Project.getInstance().setName(newVal);
-                    Project.getInstance().setPath("Projects\\");
+                    Project.getInstance().setPath("Projects\\"+newVal);
                     CreateProjectButton.getScene().getWindow().hide();
                     Scene scene = new Scene(loader.load(), 777, 620);
 

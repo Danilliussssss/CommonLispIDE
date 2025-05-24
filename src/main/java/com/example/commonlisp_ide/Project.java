@@ -72,7 +72,8 @@ public class Project {
     }
     public void saveSettings(String key,String value) throws IOException {
         properties = new Properties();
-        File file = new File(path+"settings.properties");
+        System.out.println(path + "\\settings.properties");
+        File file = new File(path+"\\settings.properties");
 
         if(file.exists()) {
             System.out.println(123);
@@ -80,7 +81,7 @@ public class Project {
                 InputStream input = new FileInputStream(file);
                 properties.load(input);
                 properties.setProperty(key, value);
-                OutputStream output = new FileOutputStream(path + "settings.properties");
+                OutputStream output = new FileOutputStream(path + "\\settings.properties");
                 properties.store(output,"Saved changes");
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -88,9 +89,9 @@ public class Project {
 
         }
         else {
-            System.out.println(456);
+            System.out.println(path + "\\settings.properties");
             try {
-                OutputStream output = new FileOutputStream(path + "settings.properties");
+                OutputStream output = new FileOutputStream(path + "\\settings.properties");
 
                 properties.setProperty(key, value);
                 properties.store(output, "Saved changes");
@@ -103,7 +104,7 @@ public class Project {
     public String loadSettings(String key,String value) throws IOException {
         properties = new Properties();
         try {
-            InputStream input = new FileInputStream(path+"settings.properties");
+            InputStream input = new FileInputStream(path+"\\settings.properties");
             properties.load(input);
             return properties.getProperty(key);
         } catch (FileNotFoundException e) {
@@ -119,7 +120,7 @@ public class Project {
         if(!pathProject.exists())
             pathProject.mkdir();
         try {
-            FileWriter writer = new FileWriter(path+name+".lsp");
+            FileWriter writer = new FileWriter(path+"\\"+name+".lsp");
             saveSettings("defunColor","purple");
             saveSettings("keywordColor","orange");
             saveSettings("theme","dark");
