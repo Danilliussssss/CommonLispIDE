@@ -63,7 +63,10 @@ public class StartApp {
 
 
         }
-        else System.out.println("Директории не существует!");
+        else {
+            directory.mkdir();
+            System.out.println("Директории не существует!");
+        }
         ListProject.getSelectionModel().selectedItemProperty().addListener((obs,oldVal,newVal)->{
             if(newVal!=null) {
                 FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("Main.fxml"));
