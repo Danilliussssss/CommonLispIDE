@@ -47,7 +47,7 @@ public class StartApp {
         else darkTheme();
 
         ProjectParam = FXCollections.observableArrayList();
-        directory = new File("C:\\Users\\Danilka\\IdeaProjects\\CommonLisp_IDE\\Projects");
+        directory = new File("Projects");
         FilenameFilter filter = (dir,name) -> name.endsWith(".lsp");
 
         if(directory.isDirectory()){
