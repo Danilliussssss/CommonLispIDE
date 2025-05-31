@@ -3,6 +3,7 @@ package com.example.commonlisp_ide;
 import java.io.*;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
@@ -71,6 +72,14 @@ public class Main {
 
         Platform.runLater(()->{
             try {
+                if(Project.getInstance().loadSettings("name","empty")==null)
+                    Project.getInstance().saveSettings("name",Project.getInstance().getName());
+                if(Project.getInstance().loadSettings("path","empty")==null)
+                    Project.getInstance().saveSettings("path",Project.getInstance().getPath());
+
+
+                if(Project.getInstance().loadSettings("compile-file","empty")!=null&&!Project.getInstance().loadSettings("compile-file","empty").equals("empty"))
+                 compileAllFile();
                 if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
                     lightTheme();
                     InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
@@ -157,7 +166,7 @@ public class Main {
             }
         });
         menuBar.getMenus().get(1).getItems().get(0).setOnAction(actionEvent ->{
-            System.out.println("Имя файла: "+Project.getInstance().getName());
+
             sendCodeToLisp("(compile-file \"Projects/"+Project.getInstance().getName()+"/"+Project.getInstance().getName()+".lsp"+"\") ");
 
         });
@@ -168,9 +177,13 @@ public class Main {
             Stage stage = new Stage();
             File file = fileChooser.showOpenDialog(stage);
             if(file!=null) {
-                System.out.println(file.getPath());
-                System.out.println("(load \"Projects/"+file.getName().substring(0,file.getName().length()-5)+"/"+file.getName()+"\") ");
-                sendCodeToLisp("(load \"Projects/"+file.getName().substring(0,file.getName().length()-5)+"/"+file.getName()+"\") ");
+
+
+
+
+                    //Project.getInstance().saveSettings("compile-file",file.getName().substring(0,file.getName().length()-5));
+                    compile_file(file.getName().substring(0,file.getName().length()-5));
+
                 compile.add("(load \"Projects/"+file.getName().substring(0,file.getName().length()-5)+"/"+file.getName()+"\") ");
 
             }
@@ -192,7 +205,7 @@ public class Main {
         Run.setOnAction(e -> {
 
 
-            System.out.println("\n\n\n\n\n\n\n\n\n");
+
             sendCodeToLisp(InputArea.getText());
 
 
@@ -211,14 +224,16 @@ public class Main {
         ThemeSwitch.setOnAction(actionEvent-> {
             Platform.runLater(()->{
                 try {
-                    System.out.println(Project.getInstance().loadGlobalSettings("theme","value"));
+
                     if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark")) {
                         lightTheme();
+                        Project.getInstance().getDesignWindow().lightTheme();
                         InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                         OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                     }
                     else {
                         darkTheme();
+                        Project.getInstance().getDesignWindow().darkTheme();
                         InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                         OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                     }
@@ -230,16 +245,59 @@ public class Main {
 
         });
     }
+    public void compileAllFile(){
+
+        try {
+            String[] files  = Project.getInstance().loadSettings("compile-file", "empty").split(",");
+            ArrayList<String> arrayFiles = new ArrayList<>(Arrays.asList(files));
+            for(String file : arrayFiles)
+                sendCodeToLisp("(load \"Projects/" + file + "/" + file + ".lsp" + "\") ");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    public void compile_file(String fileName){
+
+        try {
+            if(Project.getInstance().loadSettings("compile-file","empty")==null||Project.getInstance().loadSettings("compile-file","empty").equals("empty")) {
+                Project.getInstance().saveSettings("compile-file", fileName);
+                System.out.println(123);
+                sendCodeToLisp("(load \"Projects/" + fileName + "/" + fileName + ".lsp" + "\") ");
+            }
+            else {
+
+                String[] files = Project.getInstance().loadSettings("compile-file", "empty").split(",");
+                ArrayList<String> arrayFiles = new ArrayList<>(Arrays.asList(files));
+
+                if(!arrayFiles.contains(fileName)) {
+                    System.out.println(456);
+                    arrayFiles.add(fileName);
+                    String res = Project.getInstance().loadSettings("compile-file","empty");
+                    res += "," + fileName;
+                    Project.getInstance().saveSettings("compile-file", res);
+                    sendCodeToLisp("(load \"Projects/" + fileName + "/" + fileName + ".lsp" + "\") ");
+                    System.out.println(res);
+                }
+
+
+
+
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     private void lightTheme() throws IOException {
         LightView = new ImageView(getClass().getResource("/com/example/commonlisp_ide/RunIconLight.png").toExternalForm());
         LightView.setFitHeight(16);
         LightView.setFitWidth(18);
         Run.setGraphic(LightView);
 
-        LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
+        /*LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
         LightViewDebug.setFitHeight(17);
         LightViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(LightViewDebug);
+        RunDebug.setGraphic(LightViewDebug);*/
 
         Project.getInstance().saveGlobalSettings("theme", "light");
             ThemeSwitch.setStyle("-fx-background-color: #F5FFFA;-fx-text-fill: #292929;");
@@ -248,6 +306,7 @@ public class Main {
 
             highLightText_changed();
             InputArea.setStyle("-fx-background-color: #F5FFFA;");
+
             OutputArea.setStyle("-fx-background-color: #F5FFFA;");
             haulst.setStyle("-fx-background-color: #FFDAB9;");
             menuBar.setStyle("-fx-background-color: #F5FFFA;");
@@ -265,17 +324,18 @@ public class Main {
             Run.setStyle("-fx-background-color: #FFDAB9;");
         RunDebug.setStyle("-fx-background-color: #FFDAB9;");
     }
+    //Функция, включающая тёмную тему
     private void darkTheme() throws IOException {
-        System.out.println("darkTheme");
+
         DarkView = new ImageView(getClass().getResource("/com/example/commonlisp_ide/RunIcon.png").toExternalForm());
         DarkView.setFitHeight(16);
         DarkView.setFitWidth(18);
 
         Run.setGraphic(DarkView);
-        DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
+        /*DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
         DarkViewDebug.setFitHeight(17);
         DarkViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(DarkViewDebug);
+        RunDebug.setGraphic(DarkViewDebug);*/
         Project.getInstance().saveGlobalSettings("theme", "dark");
         ThemeSwitch.setStyle("-fx-background-color: #292929;-fx-text-fill: #F5FFFA;");
         InputArea.setStyleClass(0,InputArea.getText().length(),"white");
@@ -319,16 +379,20 @@ public class Main {
              InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
              OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
 
+
          }
          else {
              color = "white";
              InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
              OutputArea.setStyle("-fx-background-color: #292929; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
 
+
          }
 
 
-         InputArea.setStyleClass(0,InputArea.getText().length(),Project.getInstance().loadGlobalSettings("codeColor",color));
+         if(Project.getInstance().loadGlobalSettings("codeColor","white").equals("white")||Project.getInstance().loadGlobalSettings("codeColor","white").equals("dark"))
+             InputArea.setStyleClass(0,InputArea.getText().length(),color);
+         else InputArea.setStyleClass(0,InputArea.getText().length(),Project.getInstance().loadGlobalSettings("codeColor",color));
 
          try {
              highLightText(InputArea,"defun",Project.getInstance().loadGlobalSettings("defunColor","purple"));
@@ -347,7 +411,7 @@ public class Main {
         try {
             ProcessBuilder pb = new ProcessBuilder("Steel Bank Common Lisp/sbcl.exe",
                     "--noinform",
-                    "--eval","(sb-ext:disable-debugger)",
+                     "--eval","(sb-ext:disable-debugger)",
                     // "--eval", "(setq *debug-io* (make-broadcast-stream))",
                     "--eval", "(declaim (sb-ext:muffle-conditions style-warning))"
             );
@@ -372,7 +436,7 @@ public class Main {
             flagLoadComand = false;
             OutputArea.clear();
         }
-        System.out.println("Флаг установлен: "+flagLoadComand);
+
         try {
             processInput.write(param + "\n");
 
@@ -404,7 +468,7 @@ public class Main {
         } catch (IOException e) {
             appendToOutput("Ошибка чтения stdout" + "\n");
         }
-        System.out.println("Сработал метод readLispOutput : "+flagLoadComand);
+
 
     }
     private void appendToOutput(String text){

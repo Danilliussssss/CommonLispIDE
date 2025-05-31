@@ -26,6 +26,14 @@ public class Project {
         return main;
     }
 
+    public DesignWindow getDesignWindow() {
+        return designWindow;
+    }
+
+    public void setDesignWindow(DesignWindow designWindow) {
+        this.designWindow = designWindow;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -41,12 +49,14 @@ public class Project {
     public String getPath() {
         return path;
     }
-    public void saveGlobalSettings(String key,String value) {
+    public void saveGlobalSettings(String key,String value) throws IOException {
         properties = new Properties();
         File file = new File("src/main/java/com/example/commonlisp_ide/global_settings.properties");
 
-        if (file.exists()) {
-            System.out.println(123);
+        if (!file.exists()) {
+            file.createNewFile();
+        }
+
             try {
                 InputStream input = new FileInputStream(file);
                 properties.load(input);
@@ -57,7 +67,10 @@ public class Project {
                 throw new RuntimeException(e);
             }
 
-        }
+
+
+
+
     }
     public String loadGlobalSettings(String key,String value) throws IOException {
         properties = new Properties();
@@ -72,11 +85,12 @@ public class Project {
     }
     public void saveSettings(String key,String value) throws IOException {
         properties = new Properties();
-        System.out.println(path + "\\settings.properties");
-        File file = new File(path+"\\settings.properties");
 
-        if(file.exists()) {
-            System.out.println(123);
+        File file = new File(path+"\\settings.properties");
+        if (!file.exists())
+            file.createNewFile();
+
+
             try {
                 InputStream input = new FileInputStream(file);
                 properties.load(input);
@@ -87,19 +101,7 @@ public class Project {
                 throw new RuntimeException(e);
             }
 
-        }
-        else {
-            System.out.println(path + "\\settings.properties");
-            try {
-                OutputStream output = new FileOutputStream(path + "\\settings.properties");
 
-                properties.setProperty(key, value);
-                properties.store(output, "Saved changes");
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
-
-        }
     }
     public String loadSettings(String key,String value) throws IOException {
         properties = new Properties();
@@ -115,15 +117,32 @@ public class Project {
     public void createProject(String name,String path){
         this.name = name;
         this.path = path;
-        File pathProject = new File(path);
 
+        File pathProject = new File(path);
         if(!pathProject.exists())
             pathProject.mkdir();
+
+        try {
+            saveSettings("name",name);
+            saveSettings("path",path);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
         try {
             FileWriter writer = new FileWriter(path+"\\"+name+".lsp");
-            saveSettings("defunColor","purple");
-            saveSettings("keywordColor","orange");
-            saveSettings("theme","dark");
+            if(loadGlobalSettings("defunColor","empty").equals("empty"))
+              saveGlobalSettings("defunColor","purple");
+            if(loadGlobalSettings("keywordColor","empty").equals("empty"))
+              saveGlobalSettings("keywordColor","orange");
+            if(loadGlobalSettings("codeColor","empty").equals("empty"))
+                saveGlobalSettings("codeColor","white");
+            if(loadGlobalSettings("text-size","empty").equals("empty"))
+                saveGlobalSettings("text-size","14px");
+            if(loadGlobalSettings("theme","empty").equals("empty"))
+                saveGlobalSettings("theme", "dark");
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

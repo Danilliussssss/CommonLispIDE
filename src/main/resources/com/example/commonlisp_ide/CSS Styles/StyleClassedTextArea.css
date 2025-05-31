@@ -6,11 +6,11 @@
 
 
 }
+
 .style-classed-text-area .caret {
-    -fx-stroke: #F5FFFA; /* Синяя каретка */
+    -fx-stroke: #808080;
     -fx-stroke-width: 1px;
 }
-
 
 .dark{
  -fx-fill: #292929 !important;

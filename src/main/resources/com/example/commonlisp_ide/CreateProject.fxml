@@ -7,8 +7,8 @@
 
 <AnchorPane fx:id="haulst" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.CreateProject">
    <children>
-      <TextField fx:id="NameProject" layoutX="175.0" layoutY="59.0" prefHeight="26.0" prefWidth="220.0"  stylesheets="@CSS%20Styles/TextField.css" />
-      <TextField fx:id="ProjectFolder" layoutX="175.0" layoutY="135.0" prefHeight="26.0" prefWidth="290.0" stylesheets="@CSS%20Styles/TextField.css" text="Projects\" />
+      <TextField fx:id="NameProject" layoutX="175.0" layoutY="59.0" prefHeight="26.0" prefWidth="220.0" stylesheets="@CSS%20Styles/TextField.css" />
+      <TextField fx:id="ProjectFolder" editable="false" layoutX="175.0" layoutY="135.0" prefHeight="26.0" prefWidth="290.0" stylesheets="@CSS%20Styles/TextField.css" text="Projects\" />
       <Text fx:id="nameLabel" fill="MINTCREAM" layoutX="41.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Название проекта:" />
       <Text fx:id="pathLabel" fill="MINTCREAM" layoutX="41.0" layoutY="153.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Расположение проекта:" />
       <Button fx:id="Create" layoutX="519.0" layoutY="361.0" mnemonicParsing="false" style="-fx-background-color: #2F4FAF;" text="Создать" textFill="MINTCREAM" />

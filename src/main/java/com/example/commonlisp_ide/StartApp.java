@@ -40,18 +40,31 @@ public class StartApp {
     Text labelCreate;
     @FXML
     void initialize() throws IOException {
+       System.out.println(Project.getInstance().loadGlobalSettings("theme","value"));
+       if(Project.getInstance().loadGlobalSettings("theme","value")==null||Project.getInstance().loadGlobalSettings("theme","value").equals("value")) {
 
-
-        if(Project.getInstance().loadGlobalSettings("theme","value")!=null&&Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
+           Project.getInstance().saveGlobalSettings("theme", "dark");
+       }
+        if(Project.getInstance().loadGlobalSettings("defunColor","value")==null||Project.getInstance().loadGlobalSettings("defunColor","value").equals("value")) {
+            System.out.println(456);
+            Project.getInstance().saveGlobalSettings("defunColor", "purple");
+        }
+        if(Project.getInstance().loadGlobalSettings("keywordColor","value")==null||Project.getInstance().loadGlobalSettings("keywordColor","value").equals("value"))
+            Project.getInstance().saveGlobalSettings("keywordColor","orange");
+        if(Project.getInstance().loadGlobalSettings("codeColor","value")==null||Project.getInstance().loadGlobalSettings("codeColor","value").equals("value"))
+            Project.getInstance().saveGlobalSettings("codeColor","white");
+        if(Project.getInstance().loadGlobalSettings("text-size","value")==null||Project.getInstance().loadGlobalSettings("text-size","value").equals("value"))
+            Project.getInstance().saveGlobalSettings("text-size","14px");
+        if(Project.getInstance().loadGlobalSettings("theme","dark").equals("light"))
             lightTheme();
         else darkTheme();
 
         ProjectParam = FXCollections.observableArrayList();
         directory = new File("Projects");
-        FilenameFilter filter = (dir,name) -> name.endsWith(".lsp");
+
 
         if(directory.isDirectory()){
-            String[] files = directory.list(filter);
+
             File[] projects = directory.listFiles();
             if (projects!=null) {
                for(File file : projects)
@@ -76,6 +89,7 @@ public class StartApp {
                 try {
                     Project.getInstance().setName(newVal);
                     Project.getInstance().setPath("Projects\\"+newVal);
+
                     CreateProjectButton.getScene().getWindow().hide();
                     Scene scene = new Scene(loader.load(), 777, 620);
 

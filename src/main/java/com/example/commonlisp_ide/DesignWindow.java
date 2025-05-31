@@ -46,9 +46,9 @@ public class DesignWindow {
         stylesItem.put("Синий","-fx-text-fill: #0000FF;");
         stylesItem.put("Жёлтый","-fx-text-fill: #FFFF00;");
         stylesItem.put("Фиолетовый","-fx-text-fill: purple;");
-        stylesItem.put("Стандарт","-fx-text-fill: #292929;");
+        stylesItem.put("Белый","-fx-text-fill: #292929;");
         stylesItem.put("Оранжевый","-fx-text-fill: #FF8C00;");
-        stylesItem.put("Тёмный","-fx-text-fill: #292929;");
+
 
 
 
@@ -77,6 +77,15 @@ public class DesignWindow {
         if(Project.getInstance().loadGlobalSettings("theme","value")!=null&&Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
             lightTheme();
         else darkTheme();
+        Project.getInstance().setDesignWindow(this);
+        if(Project.getInstance().loadGlobalSettings("defunBoxValue","Фиолетовый")==null)
+            Project.getInstance().saveGlobalSettings("defunBoxValue","Фиолетовый");
+        if(Project.getInstance().loadGlobalSettings("keywordBoxValue","Оранжевый")==null)
+            Project.getInstance().saveGlobalSettings("keywordBoxValue","Оранжевый");
+        if(Project.getInstance().loadGlobalSettings("codeBoxValue","Стандарт")==null)
+            Project.getInstance().saveGlobalSettings("codeBoxValue","Стандарт");
+        if(Project.getInstance().loadGlobalSettings("text-size-value","14 px")==null)
+            Project.getInstance().saveGlobalSettings("text-size-value","14 px");
 
         defunColor.setValue(Project.getInstance().loadGlobalSettings("defunBoxValue","Фиолетовый"));
         keywordColor.setValue(Project.getInstance().loadGlobalSettings("keywordBoxValue","Оранжевый"));
@@ -149,7 +158,7 @@ public class DesignWindow {
                 }
             }
         });
-        codeColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Стандарт","Тёмный");
+        codeColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Стандарт");
         codeColor.setCellFactory(listView -> new ListCell<>(){
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -189,7 +198,12 @@ public class DesignWindow {
             try {
                 Project.getInstance().saveGlobalSettings("defunColor",styles.get(defunColor.getValue()));
                 Project.getInstance().saveGlobalSettings("keywordColor",styles.get(keywordColor.getValue()));
-                Project.getInstance().saveGlobalSettings("codeColor",styles.get(codeColor.getValue()));
+                if(codeColor.getValue().equals("Стандарт")) {
+                    if (Project.getInstance().loadGlobalSettings("theme", "dark").equals("dark"))
+                        Project.getInstance().saveGlobalSettings("codeColor", "white");
+                    else Project.getInstance().saveGlobalSettings("codeColor", "dark");
+                }
+                else  Project.getInstance().saveGlobalSettings("codeColor",styles.get(codeColor.getValue()));
                 Project.getInstance().saveGlobalSettings("defunBoxValue",defunColor.getValue());
                 Project.getInstance().saveGlobalSettings("keywordBoxValue",keywordColor.getValue());
                 Project.getInstance().saveGlobalSettings("codeBoxValue",codeColor.getValue());
@@ -207,7 +221,7 @@ public class DesignWindow {
         defunLabel.setStyle("-fx-text-fill: #F5FFFA;");
         keywordLabel.setStyle("-fx-text-fill: #F5FFFA;");
         codeLabel.setStyle("-fx-text-fill: #F5FFFA;");
-
+        sizeLabel.setStyle("-fx-text-fill: #F5FFFA;");
         keywordColor.setStyle("-fx-background-color: #292929;");
         codeColor.setStyle("-fx-background-color: #292929;");
 
@@ -220,7 +234,7 @@ public class DesignWindow {
         defunLabel.setStyle("-fx-text-fill: #343434;");
         keywordLabel.setStyle("-fx-text-fill: #343434;");
         codeLabel.setStyle("-fx-text-fill: #343434;");
-
+        sizeLabel.setStyle("-fx-text-fill: #343434;");
         defunColor.getStyleClass().add("light");
 
 
