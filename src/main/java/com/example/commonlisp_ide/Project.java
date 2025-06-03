@@ -1,5 +1,7 @@
 package com.example.commonlisp_ide;
 
+import javafx.stage.Stage;
+
 import java.io.*;
 import java.util.Properties;
 
@@ -16,6 +18,9 @@ public class Project {
     public static Project getInstance() {
         return instance;
     }
+
+
+
     public void setMain(Main param){
         main = param;
     }

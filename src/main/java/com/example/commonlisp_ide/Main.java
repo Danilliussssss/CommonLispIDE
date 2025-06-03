@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
@@ -21,18 +22,13 @@ import org.fxmisc.richtext.*;
 
 public class Main {
 
-    @FXML
-    private ResourceBundle resources;
 
-    @FXML
-    private URL location;
-    @FXML
-    private VBox vBox;
+@FXML
+private VBox vBox;
 
     @FXML
     private StyleClassedTextArea OutputArea;
-    @FXML
-    private Button RunDebug;
+
     @FXML
     private Button Run;
     @FXML
@@ -43,7 +39,7 @@ public class Main {
     private BufferedWriter processInput;
     private BufferedReader processOutput;
     private BufferedReader processError;
-    private AtomicInteger packageCounter;
+
     private FileChooser fileChooser;
     @FXML
     private ToggleButton ThemeSwitch;
@@ -58,8 +54,7 @@ public class Main {
     ImageView LightViewDebug;
 
     private boolean flagLoadComand = false;
-    @FXML
-    BorderPane num;
+
 
 
     @FXML
@@ -68,9 +63,28 @@ public class Main {
 
     @FXML
     void initialize() throws IOException {
+        vBox.setAlignment(Pos.CENTER);
+        AnchorPane.setTopAnchor(Run,8.0);
+
+        AnchorPane.setRightAnchor(Run,120.0);
+        AnchorPane.setTopAnchor(ThemeSwitch,7.0);
+
+        AnchorPane.setLeftAnchor(ThemeSwitch,125.0);
+        AnchorPane.setRightAnchor(InputArea,125.0);
+        AnchorPane.setLeftAnchor(InputArea,125.0);
+        AnchorPane.setBottomAnchor(InputArea,180.0);
+        AnchorPane.setTopAnchor(InputArea,35.0);
+        AnchorPane.setRightAnchor(OutputArea,125.0);
+        AnchorPane.setBottomAnchor(OutputArea,35.0);
+
+        AnchorPane.setLeftAnchor(OutputArea,125.0);
+
 
 
         Platform.runLater(()->{
+
+
+
             try {
                 if(Project.getInstance().loadSettings("name","empty")==null)
                     Project.getInstance().saveSettings("name",Project.getInstance().getName());
@@ -98,6 +112,15 @@ public class Main {
 
         compile = new ArrayList<>();
         Project.getInstance().setMain(this);
+
+        vBox.widthProperty().addListener(((observable, oldValue, newValue) -> {
+
+            AnchorPane.setLeftAnchor(Run,newValue.doubleValue()-120);
+            AnchorPane.setRightAnchor(ThemeSwitch,newValue.doubleValue()-180);
+        }));
+        vBox.heightProperty().addListener(((observable, oldValue, newValue) -> {
+            AnchorPane.setTopAnchor(OutputArea,(newValue.doubleValue()-190));
+        }));
         try {
             BufferedReader reader = new BufferedReader(new FileReader(Project.getInstance().getPath()+"\\"+Project.getInstance().getName()+".lsp"));
             String line;
@@ -189,6 +212,7 @@ public class Main {
             }
 
         });
+
         menuBar.getMenus().get(2).getItems().get(0).setOnAction(actionEvent->{
             FXMLLoader fxmlLoader = new FXMLLoader(CreateProject.class.getResource("DesignWindow.fxml"));
             Stage stage = new Stage();
@@ -227,13 +251,15 @@ public class Main {
 
                     if(Project.getInstance().loadGlobalSettings("theme","value").equals("dark")) {
                         lightTheme();
-                        Project.getInstance().getDesignWindow().lightTheme();
+                        if(Project.getInstance().getDesignWindow()!=null)
+                          Project.getInstance().getDesignWindow().lightTheme();
                         InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                         OutputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                     }
                     else {
                         darkTheme();
-                        Project.getInstance().getDesignWindow().darkTheme();
+                        if(Project.getInstance().getDesignWindow()!=null)
+                          Project.getInstance().getDesignWindow().darkTheme();
                         InputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                         OutputArea.setStyle("-fx-background-color: #292929;-fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
                     }
@@ -322,7 +348,7 @@ public class Main {
 
             }
             Run.setStyle("-fx-background-color: #FFDAB9;");
-        RunDebug.setStyle("-fx-background-color: #FFDAB9;");
+        //RunDebug.setStyle("-fx-background-color: #FFDAB9;");
     }
     //Функция, включающая тёмную тему
     private void darkTheme() throws IOException {
@@ -357,7 +383,7 @@ public class Main {
             menuBar.getMenus().get(i).getStyleClass().add("custom-menu-dark");
         }
         Run.setStyle("-fx-background-color: #343434;");
-        RunDebug.setStyle("-fx-background-color: #343434;");
+        //RunDebug.setStyle("-fx-background-color: #343434;");
     }
     private void highLightText(StyleClassedTextArea textArea,String searchText,String styleClass){
         String text = textArea.getText();

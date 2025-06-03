@@ -42,7 +42,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import org.fxmisc.richtext.StyleClassedTextArea?>
 
-<VBox fx:id="vBox" prefHeight="620.0" prefWidth="777.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.Main">
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onZoom="#highLightText_changed" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.commonlisp_ide.Main">
   <children>
       <MenuBar fx:id="menuBar" styleClass="context-menu">
         <menus>
@@ -70,16 +70,14 @@
             <URL value="@CSS%20Styles/ContextMenu.css" />
          </stylesheets>
       </MenuBar>
-    <AnchorPane fx:id="haulst" maxHeight="-1.0" maxWidth="-1.0" prefHeight="599.0" prefWidth="778.0" VBox.vgrow="ALWAYS">
+    <AnchorPane fx:id="haulst" maxHeight="-1.0" maxWidth="-1.0" scaleShape="false" VBox.vgrow="ALWAYS">
          <children>
-            <Button fx:id="Run" layoutX="648.0" layoutY="7.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0">
+            <Button fx:id="Run" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0">
 
             </Button>
-            <StyleClassedTextArea fx:id="InputArea" autoHeight="true" layoutX="131.0" layoutY="36.0" prefHeight="374.0" prefWidth="556.0" style="-fx-caret-color: #F5FFFA;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" wrapText="true" />
+            <StyleClassedTextArea fx:id="InputArea" autoHeight="true"  layoutY="36.0" prefHeight="374.0" prefWidth="556.0" style="-fx-caret-color: #F5FFFA;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" wrapText="true" />
             <StyleClassedTextArea fx:id="OutputArea" editable="false" layoutX="131.0" layoutY="421.0" prefHeight="165.0" prefWidth="556.0" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" />
-            <Button fx:id="RunDebug" layoutX="604.0" layoutY="7.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0" style="-fx-background-color: #343434;">
 
-            </Button>
             <ToggleButton fx:id="ThemeSwitch" layoutX="78.0" layoutY="7.0" mnemonicParsing="false" text="Тёмная тема" />
          </children>
     </AnchorPane>

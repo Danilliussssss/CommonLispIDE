@@ -40,13 +40,15 @@ public class StartApp {
     Text labelCreate;
     @FXML
     void initialize() throws IOException {
-       System.out.println(Project.getInstance().loadGlobalSettings("theme","value"));
+
+
+
        if(Project.getInstance().loadGlobalSettings("theme","value")==null||Project.getInstance().loadGlobalSettings("theme","value").equals("value")) {
 
            Project.getInstance().saveGlobalSettings("theme", "dark");
        }
         if(Project.getInstance().loadGlobalSettings("defunColor","value")==null||Project.getInstance().loadGlobalSettings("defunColor","value").equals("value")) {
-            System.out.println(456);
+
             Project.getInstance().saveGlobalSettings("defunColor", "purple");
         }
         if(Project.getInstance().loadGlobalSettings("keywordColor","value")==null||Project.getInstance().loadGlobalSettings("keywordColor","value").equals("value"))
@@ -80,10 +82,11 @@ public class StartApp {
             directory.mkdir();
             System.out.println("Директории не существует!");
         }
+
         ListProject.getSelectionModel().selectedItemProperty().addListener((obs,oldVal,newVal)->{
             if(newVal!=null) {
                 FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("Main.fxml"));
-                 System.out.println(newVal);
+
 
 
                 try {
@@ -95,8 +98,14 @@ public class StartApp {
 
 
                     Stage stage = new Stage();
+
+
                     stage.setScene(scene);
+
+
                     stage.setTitle(newVal);
+
+
                     stage.show();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
@@ -104,6 +113,25 @@ public class StartApp {
             }
         });
 
+        haulst.widthProperty().addListener(((observable, oldValue, newValue) -> {
+
+            AnchorPane.setRightAnchor(ListProject,(newValue.doubleValue()-200)/2);
+            AnchorPane.setRightAnchor(CreateProjectButton,(newValue.doubleValue()-44)/2);
+            AnchorPane.setRightAnchor(labelCreate,(newValue.doubleValue()-70)/2);
+
+
+        }));
+
+
+        haulst.heightProperty().addListener(((observable, oldValue, newValue) -> {
+
+            AnchorPane.setTopAnchor(ListProject,(newValue.doubleValue()-150)/2);
+
+
+            AnchorPane.setTopAnchor(CreateProjectButton,(newValue.doubleValue()-350)/2);
+            AnchorPane.setTopAnchor(labelCreate,(newValue.doubleValue()-200)/2);
+
+        }));
         CreateProjectButton.setOnAction(actionEvent->{
 
             FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("CreateProject.fxml"));

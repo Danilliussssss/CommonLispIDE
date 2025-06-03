@@ -93,6 +93,30 @@ public class DesignWindow {
          defunColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Фиолетовый");
          textSize.getItems().addAll("14 px","15 px", "16 px","17 px");
         textSize.setValue(Project.getInstance().loadGlobalSettings("text-size-value","14 px"));
+        haulst.widthProperty().addListener(((observable, oldValue, newValue) -> {
+
+            AnchorPane.setRightAnchor(defunColor,(newValue.doubleValue()-102)/2);
+            AnchorPane.setRightAnchor(keywordColor,(newValue.doubleValue()-102)/2);
+            AnchorPane.setRightAnchor(codeColor,(newValue.doubleValue()-102)/2);
+            AnchorPane.setRightAnchor(textSize,(newValue.doubleValue()-102)/2);
+            AnchorPane.setLeftAnchor(defunLabel,(newValue.doubleValue()-430)/2);
+            AnchorPane.setLeftAnchor(keywordLabel,(newValue.doubleValue()-430)/2);
+            AnchorPane.setLeftAnchor(codeLabel,(newValue.doubleValue()-430)/2);
+            AnchorPane.setLeftAnchor(sizeLabel,(newValue.doubleValue()-430)/2);
+            AnchorPane.setRightAnchor(Save,30.0);
+
+
+        }));
+        haulst.heightProperty().addListener(((observable, oldValue, newValue) -> {
+
+            //AnchorPane.setTopAnchor(defunColor,(newValue.doubleValue()-300)/2);
+            //AnchorPane.setTopAnchor(defunLabel,(newValue.doubleValue()-320)/2);
+            AnchorPane.setBottomAnchor(Save,30.0);
+
+           // AnchorPane.setTopAnchor(CreateProjectButton,(newValue.doubleValue()-350)/2);
+           // AnchorPane.setTopAnchor(labelCreate,(newValue.doubleValue()-200)/2);
+
+        }));
          defunColor.setCellFactory(listView -> new ListCell<>(){
              @Override
              protected void updateItem(String item, boolean empty) {

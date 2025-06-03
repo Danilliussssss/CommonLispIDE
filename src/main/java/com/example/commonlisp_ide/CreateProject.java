@@ -41,7 +41,32 @@ public class CreateProject {
         if(Project.getInstance().loadGlobalSettings("theme","value")!=null&&Project.getInstance().loadGlobalSettings("theme","value").equals("light"))
             lightTheme();
         else darkTheme();
+        haulst.widthProperty().addListener(((observable, oldValue, newValue) -> {
 
+            AnchorPane.setLeftAnchor(nameLabel,(newValue.doubleValue() - 480)/2);
+            AnchorPane.setLeftAnchor(pathLabel,(newValue.doubleValue() - 480)/2);
+            AnchorPane.setLeftAnchor(NameProject,(newValue.doubleValue()-200)/2);
+            AnchorPane.setLeftAnchor(ProjectFolder,(newValue.doubleValue()-200)/2);
+            AnchorPane.setLeftAnchor(Back,20.0);
+            AnchorPane.setRightAnchor(Create,20.0);
+
+
+
+
+        }));
+        haulst.heightProperty().addListener(((observable, oldValue, newValue) -> {
+
+            AnchorPane.setTopAnchor(nameLabel,(newValue.doubleValue()-260)/2);
+            AnchorPane.setTopAnchor(NameProject,(newValue.doubleValue()-275)/2);
+
+
+            AnchorPane.setTopAnchor(pathLabel,(newValue.doubleValue()-110)/2);
+            AnchorPane.setTopAnchor(ProjectFolder,(newValue.doubleValue()-125)/2);
+            AnchorPane.setBottomAnchor(Back,20.0);
+            AnchorPane.setBottomAnchor(Create,20.0);
+
+
+        }));
         Create.setOnAction( e->{
             Create.getScene().getWindow().hide();
             try {
