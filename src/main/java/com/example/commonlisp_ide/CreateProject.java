@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -68,32 +69,39 @@ public class CreateProject {
 
         }));
         Create.setOnAction( e->{
-            Create.getScene().getWindow().hide();
-            try {
-                File path = new File(ProjectFolder.getText());
-                Project.getInstance().createProject(NameProject.getText(),ProjectFolder.getText()+NameProject.getText());
+            if(NameProject.getText()!=null&&!NameProject.getText().equals("")) {
+                Create.getScene().getWindow().hide();
+                try {
+                    File path = new File(ProjectFolder.getText());
+                    Project.getInstance().createProject(NameProject.getText(), ProjectFolder.getText() + NameProject.getText());
 
 
-                if (!path.exists())
-                    path.mkdir();
-                FileWriter writer = new FileWriter(ProjectFolder.getText()+NameProject.getText()+"\\"+NameProject.getText()+".lsp");
+                    if (!path.exists())
+                        path.mkdir();
+                    FileWriter writer = new FileWriter(ProjectFolder.getText() + NameProject.getText() + "\\" + NameProject.getText() + ".lsp");
 
 
-
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
+                FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("Main.fxml"));
+                try {
+                    Scene scene = new Scene(loader.load(), 777, 620);
+                    Stage stage = new Stage();
+                    stage.setScene(scene);
+                    stage.setTitle(NameProject.getText());
+                    stage.show();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
-            FXMLLoader loader = new FXMLLoader(CreateProject.class.getResource("Main.fxml"));
-            try {
-                Scene scene = new Scene(loader.load(),777,620);
-                Stage stage = new Stage();
-                stage.setScene(scene);
-                stage.setTitle(NameProject.getText());
-                stage.show();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+            else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Ошибка в имени проекта");
+                error.setContentText("Ошибка в имени проекта");
+                error.showAndWait();
 
+            }
         });
         Back.setOnAction(e->{
             Back.getScene().getWindow().hide();

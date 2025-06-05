@@ -25,6 +25,7 @@
             <artifactId>richtextfx</artifactId>
             <version>0.11.5</version>
         </dependency>
+
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>

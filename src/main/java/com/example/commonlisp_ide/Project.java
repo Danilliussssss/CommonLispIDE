@@ -10,27 +10,18 @@ public class Project {
     String name;
     String path;
     Main main;
-
     CreateProject createProject;
     DesignWindow designWindow;
     private Properties properties;
-
     public static Project getInstance() {
         return instance;
     }
-
-
-
     public void setMain(Main param){
         main = param;
     }
-
-
-
     public Main getMain() {
         return main;
     }
-
     public DesignWindow getDesignWindow() {
         return designWindow;
     }
@@ -54,14 +45,13 @@ public class Project {
     public String getPath() {
         return path;
     }
+    //Загрузка настроек в файл среды разработки .properties
     public void saveGlobalSettings(String key,String value) throws IOException {
         properties = new Properties();
         File file = new File("src/main/java/com/example/commonlisp_ide/global_settings.properties");
-
         if (!file.exists()) {
             file.createNewFile();
         }
-
             try {
                 InputStream input = new FileInputStream(file);
                 properties.load(input);
@@ -71,12 +61,8 @@ public class Project {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
-
-
-
     }
+    //Считывание настроек из файла среды разработки .properties
     public String loadGlobalSettings(String key,String value) throws IOException {
         properties = new Properties();
         try {
@@ -86,16 +72,14 @@ public class Project {
         } catch (FileNotFoundException e) {
             return value;
         }
-
     }
+    //Загрузка настроек в файл проекта .properties
     public void saveSettings(String key,String value) throws IOException {
         properties = new Properties();
 
         File file = new File(path+"\\settings.properties");
         if (!file.exists())
             file.createNewFile();
-
-
             try {
                 InputStream input = new FileInputStream(file);
                 properties.load(input);
@@ -105,9 +89,8 @@ public class Project {
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-
-
     }
+    //Считывание настроек из файла проекта .properties
     public String loadSettings(String key,String value) throws IOException {
         properties = new Properties();
         try {
@@ -117,12 +100,11 @@ public class Project {
         } catch (FileNotFoundException e) {
             return value;
         }
-
     }
+    //Функция создания проекта
     public void createProject(String name,String path){
         this.name = name;
         this.path = path;
-
         File pathProject = new File(path);
         if(!pathProject.exists())
             pathProject.mkdir();
@@ -133,8 +115,6 @@ public class Project {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
         try {
             FileWriter writer = new FileWriter(path+"\\"+name+".lsp");
             if(loadGlobalSettings("defunColor","empty").equals("empty"))
@@ -147,12 +127,8 @@ public class Project {
                 saveGlobalSettings("text-size","14px");
             if(loadGlobalSettings("theme","empty").equals("empty"))
                 saveGlobalSettings("theme", "dark");
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
 }

@@ -149,6 +149,7 @@ public class StartApp {
 
         });
     }
+    //Функция, включающая тёмную тему
     public void darkTheme(){
 
 
@@ -164,6 +165,7 @@ public class StartApp {
 
 
     }
+    //Функция, активирующая светлую тему для данного окна
     public void lightTheme(){
 
         labelCreate.setStyle("-fx-fill: #343434;");
