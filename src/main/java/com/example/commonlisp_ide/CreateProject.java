@@ -57,7 +57,7 @@ public class CreateProject {
         }));
         haulst.heightProperty().addListener(((observable, oldValue, newValue) -> {
 
-            AnchorPane.setTopAnchor(nameLabel,(newValue.doubleValue()-260)/2);
+             AnchorPane.setTopAnchor(nameLabel,(newValue.doubleValue()-260)/2);
             AnchorPane.setTopAnchor(NameProject,(newValue.doubleValue()-275)/2);
 
 
