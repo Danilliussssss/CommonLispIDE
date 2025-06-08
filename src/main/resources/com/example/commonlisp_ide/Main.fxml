@@ -75,6 +75,9 @@
             <Button fx:id="Run" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0">
 
             </Button>
+             <Button fx:id="RunDebug" layoutX="604.0" layoutY="7.0" mnemonicParsing="false" prefHeight="20.0" prefWidth="36.0" >
+
+             </Button>
             <StyleClassedTextArea fx:id="InputArea" autoHeight="true"  layoutY="36.0" prefHeight="374.0" prefWidth="556.0" style="-fx-caret-color: #F5FFFA;" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" wrapText="true" />
             <StyleClassedTextArea fx:id="OutputArea" editable="false" layoutX="131.0" layoutY="421.0" prefHeight="165.0" prefWidth="556.0" styleClass="style-classed-text-area" stylesheets="@CSS%20Styles/StyleClassedTextArea.css" />
 

@@ -5,6 +5,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.ResourceBundle;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicInteger;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -13,6 +14,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -31,6 +33,8 @@ private VBox vBox;
 
     @FXML
     private Button Run;
+    @FXML
+    private Button RunDebug;
     @FXML
     private MenuBar menuBar;
     @FXML
@@ -52,6 +56,8 @@ private VBox vBox;
     ImageView DarkViewDebug;
     @FXML
     ImageView LightViewDebug;
+    int pos;
+
 
 
     private boolean flagLoadComand = false;
@@ -61,6 +67,7 @@ private VBox vBox;
     ArrayList<String> compile;
     @FXML
     void initialize() throws IOException {
+
         vBox.setAlignment(Pos.CENTER);
         AnchorPane.setTopAnchor(Run,8.0);
         AnchorPane.setRightAnchor(Run,120.0);
@@ -98,12 +105,14 @@ private VBox vBox;
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
+
         });
         compile = new ArrayList<>();
         Project.getInstance().setMain(this);
         vBox.widthProperty().addListener(((observable, oldValue, newValue) -> {
 
             AnchorPane.setLeftAnchor(Run,newValue.doubleValue()-120);
+            AnchorPane.setLeftAnchor(RunDebug,newValue.doubleValue()-165);
             AnchorPane.setRightAnchor(ThemeSwitch,newValue.doubleValue()-180);
         }));
         vBox.heightProperty().addListener(((observable, oldValue, newValue) -> {
@@ -121,6 +130,7 @@ private VBox vBox;
         }
         startSBCL();
         highLightText_changed();
+
         menuBar.getMenus().get(0).getItems().get(0).setOnAction(actionEvent -> {
             FXMLLoader loader = new FXMLLoader(StartApp.class.getResource("CreateProject.fxml"));
             try {
@@ -207,10 +217,32 @@ private VBox vBox;
                error.showAndWait();
            }
         });
+        InputArea.caretPositionProperty().addListener(((observable, oldValue, newValue) -> {
+
+            if(oldValue<InputArea.getText().length()) {
+                pos = oldValue;
+
+
+            }
+
+
+        }));
+        InputArea.setOnKeyReleased(event -> {
+            if(event.getCode()== KeyCode.DIGIT9&&event.isShiftDown()) {
+                InputArea.insertText(pos+1,")");
+
+
+                InputArea.selectRange(pos,pos);
+            }
+        });
         InputArea.textProperty().addListener((obs,oldText,newText)->{
+
             InputArea.clearStyle(0,InputArea.getText().length());
             try {
                 highLightText_changed();
+
+
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -239,7 +271,11 @@ private VBox vBox;
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
+
             });
+        });
+        RunDebug.setOnAction(e->{
+
         });
     }
     //компиляция всх файлов, указанных в settings.properties
@@ -285,10 +321,10 @@ private VBox vBox;
         LightView.setFitHeight(16);
         LightView.setFitWidth(18);
         Run.setGraphic(LightView);
-        /*LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
+        LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
         LightViewDebug.setFitHeight(17);
         LightViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(LightViewDebug);*/
+        RunDebug.setGraphic(LightViewDebug);
         Project.getInstance().saveGlobalSettings("theme", "light");
             ThemeSwitch.setStyle("-fx-background-color: #F5FFFA;-fx-text-fill: #292929;");
             InputArea.setStyleClass(0,InputArea.getText().length(),"dark");
@@ -309,8 +345,9 @@ private VBox vBox;
                 menuBar.getMenus().get(i).getStyleClass().add("custom-menu-light");
             }
             Run.setStyle("-fx-background-color: #FFDAB9;");
-        //RunDebug.setStyle("-fx-background-color: #FFDAB9;");
+        RunDebug.setStyle("-fx-background-color: #FFDAB9;");
     }
+
     //Функция, подсчитывающая кол-во символов
     private int symbol_count(String str,char c){
         int count = 0;
@@ -326,10 +363,10 @@ private VBox vBox;
         DarkView.setFitHeight(16);
         DarkView.setFitWidth(18);
         Run.setGraphic(DarkView);
-        /*DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
+        DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
         DarkViewDebug.setFitHeight(17);
         DarkViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(DarkViewDebug);*/
+        RunDebug.setGraphic(DarkViewDebug);
         Project.getInstance().saveGlobalSettings("theme", "dark");
         ThemeSwitch.setStyle("-fx-background-color: #292929;-fx-text-fill: #F5FFFA;");
         InputArea.setStyleClass(0,InputArea.getText().length(),"white");
@@ -350,7 +387,27 @@ private VBox vBox;
             menuBar.getMenus().get(i).getStyleClass().add("custom-menu-dark");
         }
         Run.setStyle("-fx-background-color: #343434;");
-        //RunDebug.setStyle("-fx-background-color: #343434;");
+        RunDebug.setStyle("-fx-background-color: #343434;");
+    }
+    private void isClosedBrackets(){
+        Stack<Integer> stack = new Stack<Integer>();
+
+        for(int i=0;i<InputArea.getText().length();i++) {
+            if ( InputArea.getText().charAt(i) == '(') {
+                stack.push(i);
+            }
+            if( InputArea.getText().charAt(i) == ')') {
+                if (!stack.empty())
+                    stack.pop();
+                else {
+                    InputArea.setStyleClass(i,i+1 , "highlight-error");
+                }
+            }
+        }
+        while (!stack.empty()) {
+            int t = stack.pop();
+            InputArea.setStyleClass(t,  t+ 1, "highlight-error");
+        }
     }
     private void highLightText(StyleClassedTextArea textArea,String searchText,String styleClass){
         String text = textArea.getText();
@@ -366,6 +423,9 @@ private VBox vBox;
     }
      public void highLightText_changed() throws IOException {
         String color;
+
+
+
          if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
              color = "dark";
              InputArea.setStyle("-fx-background-color: #F5FFFA; -fx-font-size:" +Project.getInstance().loadGlobalSettings("text-size","14px")+";");
@@ -398,6 +458,7 @@ private VBox vBox;
          } catch (IOException e) {
              throw new RuntimeException(e);
          }
+         isClosedBrackets();
      }
      //запуск интерпретатора
     private void startSBCL() {

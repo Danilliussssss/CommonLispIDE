@@ -8,4 +8,8 @@
   (loop for elem in x
         do (setq count (+ count 1))
         finally (return count)))
-(find_elem  1 `(1 2 3)) 
+(find_elem  1 `(1 2 3))
+
+(defun func ()
+  (find_elem  1 `(1 2 3))
+)

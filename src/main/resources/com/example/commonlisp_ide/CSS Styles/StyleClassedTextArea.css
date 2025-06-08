@@ -11,7 +11,6 @@
     -fx-stroke: #808080;
     -fx-stroke-width: 1px;
 }
-
 .dark{
  -fx-fill: #292929 !important;
 }
@@ -39,4 +38,5 @@
 }
 .highlight-error {
     -fx-fill: #F40000 !important;
+    
 }

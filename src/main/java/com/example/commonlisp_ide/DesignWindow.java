@@ -42,7 +42,6 @@ public class DesignWindow {
     private static final Map<String,String> stylesItem = new HashMap<>();
     static {
         stylesItem.put("Зелёный","-fx-text-fill: #008000;");
-        stylesItem.put("Красный","-fx-text-fill: #FF0000;");
         stylesItem.put("Синий","-fx-text-fill: #0000FF;");
         stylesItem.put("Жёлтый","-fx-text-fill: #FFFF00;");
         stylesItem.put("Фиолетовый","-fx-text-fill: purple;");
@@ -56,7 +55,7 @@ public class DesignWindow {
     private static final Map<String,String> styles = new HashMap<>();
     static {
         styles.put("Зелёный","green");
-        styles.put("Красный","red");
+
         styles.put("Синий","blue");
         styles.put("Жёлтый","yellow");
         styles.put("Фиолетовый","purple");
@@ -90,7 +89,7 @@ public class DesignWindow {
         defunColor.setValue(Project.getInstance().loadGlobalSettings("defunBoxValue","Фиолетовый"));
         keywordColor.setValue(Project.getInstance().loadGlobalSettings("keywordBoxValue","Оранжевый"));
         codeColor.setValue(Project.getInstance().loadGlobalSettings("codeBoxValue","Стандарт"));
-         defunColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Фиолетовый");
+         defunColor.getItems().addAll("Зелёный","Синий","Жёлтый","Фиолетовый");
          textSize.getItems().addAll("14 px","15 px", "16 px","17 px");
         textSize.setValue(Project.getInstance().loadGlobalSettings("text-size-value","14 px"));
         haulst.widthProperty().addListener(((observable, oldValue, newValue) -> {
@@ -148,7 +147,7 @@ public class DesignWindow {
                 }
             }
         });
-        keywordColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Оранжевый");
+        keywordColor.getItems().addAll("Зелёный","Синий","Жёлтый","Оранжевый");
         keywordColor.setCellFactory(listView -> new ListCell<>(){
             @Override
             protected void updateItem(String item, boolean empty) {
@@ -182,7 +181,7 @@ public class DesignWindow {
                 }
             }
         });
-        codeColor.getItems().addAll("Зелёный","Красный","Синий","Жёлтый","Стандарт");
+        codeColor.getItems().addAll("Зелёный","Синий","Жёлтый","Стандарт");
         codeColor.setCellFactory(listView -> new ListCell<>(){
             @Override
             protected void updateItem(String item, boolean empty) {
