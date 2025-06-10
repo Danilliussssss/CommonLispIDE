@@ -15,6 +15,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
@@ -115,6 +118,21 @@ private VBox vBox;
             AnchorPane.setLeftAnchor(RunDebug,newValue.doubleValue()-165);
             AnchorPane.setRightAnchor(ThemeSwitch,newValue.doubleValue()-180);
         }));
+        vBox.addEventHandler(KeyEvent.KEY_PRESSED,event -> {
+              if(new KeyCodeCombination(KeyCode.F5, KeyCombination.CONTROL_DOWN).match(event)){
+                  if(symbol_count(InputArea.getText(),'(')<= symbol_count(InputArea.getText(),')'))
+                      sendCodeToLisp(InputArea.getText());
+                  else {
+                      Alert error = new Alert(Alert.AlertType.ERROR);
+                      error.setTitle("Ошибка");
+                      error.setContentText("В коде не хватает закрывающей скобки!");
+                      error.showAndWait();
+                  }
+
+              }
+
+
+        });
         vBox.heightProperty().addListener(((observable, oldValue, newValue) -> {
             AnchorPane.setTopAnchor(OutputArea,(newValue.doubleValue()-190));
         }));
@@ -274,10 +292,10 @@ private VBox vBox;
 
             });
         });
-        RunDebug.setOnAction(e->{
 
-        });
     }
+
+
     //компиляция всх файлов, указанных в settings.properties
     public void compileAllFile(){
         try {
@@ -321,10 +339,10 @@ private VBox vBox;
         LightView.setFitHeight(16);
         LightView.setFitWidth(18);
         Run.setGraphic(LightView);
-        LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
+        /*LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
         LightViewDebug.setFitHeight(17);
         LightViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(LightViewDebug);
+        RunDebug.setGraphic(LightViewDebug);*/
         Project.getInstance().saveGlobalSettings("theme", "light");
             ThemeSwitch.setStyle("-fx-background-color: #F5FFFA;-fx-text-fill: #292929;");
             InputArea.setStyleClass(0,InputArea.getText().length(),"dark");
@@ -363,10 +381,10 @@ private VBox vBox;
         DarkView.setFitHeight(16);
         DarkView.setFitWidth(18);
         Run.setGraphic(DarkView);
-        DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
+       /* DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
         DarkViewDebug.setFitHeight(17);
         DarkViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(DarkViewDebug);
+        RunDebug.setGraphic(DarkViewDebug);*/
         Project.getInstance().saveGlobalSettings("theme", "dark");
         ThemeSwitch.setStyle("-fx-background-color: #292929;-fx-text-fill: #F5FFFA;");
         InputArea.setStyleClass(0,InputArea.getText().length(),"white");
@@ -482,6 +500,7 @@ private VBox vBox;
             throw new RuntimeException(e);
         }
     }
+
     //Отправка кода интерпретатору
     private void sendCodeToLisp(String param) {
         if(param.contains("load"))
