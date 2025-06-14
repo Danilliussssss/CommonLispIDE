@@ -108,12 +108,10 @@ public class DesignWindow {
         }));
         haulst.heightProperty().addListener(((observable, oldValue, newValue) -> {
 
-            //AnchorPane.setTopAnchor(defunColor,(newValue.doubleValue()-300)/2);
-            //AnchorPane.setTopAnchor(defunLabel,(newValue.doubleValue()-320)/2);
+
             AnchorPane.setBottomAnchor(Save,30.0);
 
-           // AnchorPane.setTopAnchor(CreateProjectButton,(newValue.doubleValue()-350)/2);
-           // AnchorPane.setTopAnchor(labelCreate,(newValue.doubleValue()-200)/2);
+
 
         }));
          defunColor.setCellFactory(listView -> new ListCell<>(){
@@ -125,7 +123,7 @@ public class DesignWindow {
                      setStyle("");
                  }
                  else {
-                     System.out.println(stylesItem.get(item));
+
                      setText(item);
                              setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
                  }
@@ -175,7 +173,7 @@ public class DesignWindow {
                     setStyle("");
                 }
                 else {
-                    System.out.println(stylesItem.get(item));
+
                     setText(item);
                     setStyle(stylesItem.get(item)+"-fx-background-color: #F5FFFA;");
                 }

@@ -11,5 +11,7 @@
 (find_elem  1 `(1 2 3))
 
 (defun func ()
-  (find_elem  1 `(1 2 3))
+  (find_elem  3`(1 2 3))
 )
+(func)
+

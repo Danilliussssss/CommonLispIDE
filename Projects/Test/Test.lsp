@@ -1,2 +1,6 @@
-(defun func ()
-  (format t "Привет, мир!~%"))
+(defun example (x y)
+  (let ((z (+ x y)))
+    (break "Переход в режим отладки")
+    z))
+
+(example 10 20)

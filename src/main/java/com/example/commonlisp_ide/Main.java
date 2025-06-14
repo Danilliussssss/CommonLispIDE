@@ -61,7 +61,7 @@ private VBox vBox;
     ImageView LightViewDebug;
     int pos;
 
-
+    private boolean debugMode = false;
 
     private boolean flagLoadComand = false;
 
@@ -225,32 +225,50 @@ private VBox vBox;
                 throw new RuntimeException(e);
             }
         });
-        Run.setOnAction(e -> {
-           if(symbol_count(InputArea.getText(),'(')<= symbol_count(InputArea.getText(),')'))
-             sendCodeToLisp(InputArea.getText());
-           else {
-               Alert error = new Alert(Alert.AlertType.ERROR);
-               error.setTitle("Ошибка");
-               error.setContentText("В коде не хватает закрывающей скобки!");
-               error.showAndWait();
-           }
+        menuBar.getMenus().get(3).getItems().get(0).setOnAction(actionEvent->{
+            String code;
+            if(InputArea.getText().contains("\u25CF"))
+                code = InputArea.getText().substring(0,InputArea.getText().indexOf("\u25CF"));
+            else code= InputArea.getText();
+
+
+            String func = "";
+            for(String name:find_func(code)) {
+                func+=name + " ";
+
+            }
+
+            sendCodeToLisp(code);
+            sendCodeToLisp("(trace"+func+")"+code);
+            sendCodeToLisp("(untrace"+func+")");
+
+
+
         });
+
         InputArea.caretPositionProperty().addListener(((observable, oldValue, newValue) -> {
 
             if(oldValue<InputArea.getText().length()) {
                 pos = oldValue;
+                System.out.println(pos);
 
 
             }
 
 
         }));
+
         InputArea.setOnKeyReleased(event -> {
             if(event.getCode()== KeyCode.DIGIT9&&event.isShiftDown()) {
                 InputArea.insertText(pos+1,")");
 
 
                 InputArea.selectRange(pos,pos);
+            }
+            if(event.getCode()== KeyCode.F3&&event.isShiftDown()) {
+                InputArea.selectRange(pos,pos);
+                InputArea.insertText(pos, "\u25CF");
+
             }
         });
         InputArea.textProperty().addListener((obs,oldText,newText)->{
@@ -292,10 +310,60 @@ private VBox vBox;
 
             });
         });
+        Run.setOnAction(e -> {
+            String code;
+            if(InputArea.getText().contains("\u25CF"))
+                code = InputArea.getText().substring(0,InputArea.getText().indexOf("\u25CF"));
+            else code= InputArea.getText();
 
+            if(symbol_count(code,'(')<= symbol_count(code,')'))
+                sendCodeToLisp(code);
+            else {
+                Alert error = new Alert(Alert.AlertType.ERROR);
+                error.setTitle("Ошибка");
+                error.setContentText("В коде не хватает закрывающей скобки!");
+                error.showAndWait();
+            }
+        });
+
+    }
+    public ArrayList<String> find_func(String code){
+          String[] parts = code.split("defun");
+          ArrayList<String> result = new ArrayList<>();
+         for(String part:parts) {
+             String defun_name;
+             for (int i = 0; i < part.length(); i++)
+                 if (part.charAt(i) == '(') {
+                     defun_name = part.substring(0, i);
+                     result.add(defun_name);
+                     break;
+                 }
+
+         }
+
+         return result;
     }
 
 
+    //запуск интерпретатора
+    private void startSBCL() {
+        try {
+            ProcessBuilder pb = new ProcessBuilder("Steel Bank Common Lisp/sbcl.exe",
+                    "--noinform",
+                    "--eval","(sb-ext:disable-debugger)",
+                    "--eval", "(declaim (sb-ext:muffle-conditions style-warning))"
+            );
+            sbclProcess = pb.start();
+            processInput = new BufferedWriter(new OutputStreamWriter(sbclProcess.getOutputStream()));
+            processOutput = new BufferedReader(new InputStreamReader(sbclProcess.getInputStream()));
+            processError = new BufferedReader(new InputStreamReader(sbclProcess.getErrorStream()));
+            new Thread((this::readLispOutput)).start();
+            new Thread(this::readLispError).start();
+        } catch (IOException e) {
+            OutputArea.appendText("Ошибка запуска SBCL: " + e.getMessage() + "\n");
+            throw new RuntimeException(e);
+        }
+    }
     //компиляция всх файлов, указанных в settings.properties
     public void compileAllFile(){
         try {
@@ -339,10 +407,10 @@ private VBox vBox;
         LightView.setFitHeight(16);
         LightView.setFitWidth(18);
         Run.setGraphic(LightView);
-        /*LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
-        LightViewDebug.setFitHeight(17);
-        LightViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(LightViewDebug);*/
+//        LightViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon Light.png").toExternalForm());
+//        LightViewDebug.setFitHeight(17);
+//        LightViewDebug.setFitWidth(20);
+//        RunDebug.setGraphic(LightViewDebug);
         Project.getInstance().saveGlobalSettings("theme", "light");
             ThemeSwitch.setStyle("-fx-background-color: #F5FFFA;-fx-text-fill: #292929;");
             InputArea.setStyleClass(0,InputArea.getText().length(),"dark");
@@ -352,7 +420,7 @@ private VBox vBox;
             OutputArea.setStyle("-fx-background-color: #F5FFFA;");
             haulst.setStyle("-fx-background-color: #FFDAB9;");
             menuBar.setStyle("-fx-background-color: #F5FFFA;");
-            for(int i=0;i<3;i++) {
+            for(int i=0;i<4;i++) {
                 menuBar.getMenus().get(i).getStyleClass().remove("light");
                 menuBar.getMenus().get(i).getStyleClass().remove("darkHover");
                 menuBar.getMenus().get(i).getStyleClass().remove("darkPressed");
@@ -381,10 +449,10 @@ private VBox vBox;
         DarkView.setFitHeight(16);
         DarkView.setFitWidth(18);
         Run.setGraphic(DarkView);
-       /* DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
-        DarkViewDebug.setFitHeight(17);
-        DarkViewDebug.setFitWidth(20);
-        RunDebug.setGraphic(DarkViewDebug);*/
+//       DarkViewDebug = new ImageView(getClass().getResource("/com/example/commonlisp_ide/Debug Icon.png").toExternalForm());
+//        DarkViewDebug.setFitHeight(17);
+//        DarkViewDebug.setFitWidth(20);
+//        RunDebug.setGraphic(DarkViewDebug);
         Project.getInstance().saveGlobalSettings("theme", "dark");
         ThemeSwitch.setStyle("-fx-background-color: #292929;-fx-text-fill: #F5FFFA;");
         InputArea.setStyleClass(0,InputArea.getText().length(),"white");
@@ -394,7 +462,7 @@ private VBox vBox;
         OutputArea.setStyle("-fx-background-color: #292929;");
         haulst.setStyle("-fx-background-color: #343434;");
         menuBar.setStyle("-fx-background-color: #292929;");
-        for(int i=0;i<3;i++) {
+        for(int i=0;i<4;i++) {
             menuBar.getMenus().get(i).getStyleClass().remove("dark");
             menuBar.getMenus().get(i).getStyleClass().remove("lightHover");
             menuBar.getMenus().get(i).getStyleClass().remove("lightPressed");
@@ -441,7 +509,7 @@ private VBox vBox;
     }
      public void highLightText_changed() throws IOException {
         String color;
-
+       // menuBar.getMenus().get(3).getItems().get(0).setDisable(!debugMode);
 
 
          if(Project.getInstance().loadGlobalSettings("theme","value").equals("light")) {
@@ -473,33 +541,13 @@ private VBox vBox;
              highLightText(InputArea,"dolist",Project.getInstance().loadGlobalSettings("keywordColor","orange"));
              highLightText(InputArea,"do",Project.getInstance().loadGlobalSettings("keywordColor","orange"));
              highLightText(InputArea,"reduce",Project.getInstance().loadGlobalSettings("keywordColor","orange"));
+             highLightText(InputArea,"\u25CF","red");
          } catch (IOException e) {
              throw new RuntimeException(e);
          }
          isClosedBrackets();
      }
-     //запуск интерпретатора
-    private void startSBCL() {
-        try {
-            ProcessBuilder pb = new ProcessBuilder("Steel Bank Common Lisp/sbcl.exe",
-                    "--noinform",
-                     "--eval","(sb-ext:disable-debugger)",
-                   // "--disable-debugger",
-                    //"--non-interactive",
-                    // "--eval", "(setq *debug-io* (make-broadcast-stream))",
-                    "--eval", "(declaim (sb-ext:muffle-conditions style-warning))"
-            );
-            sbclProcess = pb.start();
-            processInput = new BufferedWriter(new OutputStreamWriter(sbclProcess.getOutputStream()));
-            processOutput = new BufferedReader(new InputStreamReader(sbclProcess.getInputStream()));
-            processError = new BufferedReader(new InputStreamReader(sbclProcess.getErrorStream()));
-            new Thread((this::readLispOutput)).start();
-            new Thread(this::readLispError).start();
-        } catch (IOException e) {
-            OutputArea.appendText("Ошибка запуска SBCL: " + e.getMessage() + "\n");
-            throw new RuntimeException(e);
-        }
-    }
+
 
     //Отправка кода интерпретатору
     private void sendCodeToLisp(String param) {
@@ -510,6 +558,7 @@ private VBox vBox;
             OutputArea.clear();
         }
         try {
+
             processInput.write(param + "\n");
             processInput.flush();
         } catch (IOException e) {
